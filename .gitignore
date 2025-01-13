@@ -74,3 +74,6 @@ crashlytics-build.properties
 
 #Library
 **/[Ll]ibrary/
+
+#SpaghettiTests
+**/[Ss]paghettiTests/
