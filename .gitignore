@@ -72,8 +72,11 @@ crashlytics-build.properties
 **/[Aa]ssets/[Ss]treamingAssets/aa.meta
 **/[Aa]ssets/[Ss]treamingAssets/aa/*
 
-#Library
+# Library
 **/[Ll]ibrary/
 
-#SpaghettiTests
+# Log
+**/[Ll]ogs/
+
+# SpaghettiTests
 **/[Ss]paghettiTests/
