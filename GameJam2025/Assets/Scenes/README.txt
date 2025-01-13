@@ -1,0 +1,1 @@
+Mỗi đứa 1 scene, 1 cái scene lớn cho thằng lead quản lý

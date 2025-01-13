@@ -1,0 +1,1 @@
+Sử dụng cho input, cần ứng dungj observer

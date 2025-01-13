@@ -1,0 +1,1 @@
+Gọi static string từ đây thay vì dùng string trực tiếp để tránh sai chính tả, dễ điều chỉnh
