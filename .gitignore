@@ -81,3 +81,4 @@ crashlytics-build.properties
 # SpaghettiTests
 **/[Ss]paghettiTests/
 /GameJam2025/UserSettings
+*.log
