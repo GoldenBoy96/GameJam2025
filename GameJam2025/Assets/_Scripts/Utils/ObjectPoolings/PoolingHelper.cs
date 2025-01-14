@@ -8,7 +8,7 @@ public class PoolingHelper : MonoBehaviour
 {
     public static List<PoolObjectInfor> ObjectPools = new();
 
-    public static  GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation)
+    public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation)
     { 
         PoolObjectInfor pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.name);
 
