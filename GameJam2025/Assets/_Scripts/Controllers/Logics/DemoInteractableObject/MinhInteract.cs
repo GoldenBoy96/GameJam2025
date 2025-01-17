@@ -20,6 +20,8 @@ public class MinhInteract : MonoBehaviour, IInterable
     {
         if (other.gameObject.TryGetComponent<IInterable>(out var target))
         {
+            target.Interact();
+
             Observer.Notify(ObserverConstants.DEMO_OBSERVER, new int[] { 50, 100, 150 });
         }
 
