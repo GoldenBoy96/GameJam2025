@@ -8,6 +8,6 @@ public class DummyCharacterController : BaseCharacterController
 
     public void DemoShootProjectile()
     {
-        SpawnProjectile<ProjectileLightAttack>(lightAttack, lightAttackPrefab);
+        SpawnProjectile(lightAttack, lightAttackPrefab);
     }
 }
