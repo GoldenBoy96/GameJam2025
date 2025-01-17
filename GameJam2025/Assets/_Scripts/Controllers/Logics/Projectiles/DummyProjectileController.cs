@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DummyProjectileController : BaseCharacterController
+public class DummyProjectileController : BaseProjectileController
 {
     public void DemoProjectileBehaviour()
     {
