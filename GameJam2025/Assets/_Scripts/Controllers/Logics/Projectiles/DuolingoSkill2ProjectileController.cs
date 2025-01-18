@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-    public class KarenSkill2ProjectileController : BaseCharacterController
+    public class DuolingoSkill2ProjectileController : MonoBehaviour
 {
         public Vector3 dir = Vector3.left;
         private void Start()
