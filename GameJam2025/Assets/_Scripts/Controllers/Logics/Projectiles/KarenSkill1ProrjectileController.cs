@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 
 public class KarenSkill1ProrjectileController : BaseCharacterController
-    {
+{
     public Vector3 dir = Vector3.left;
     [SerializeField] string content = string.Empty;
 
@@ -17,7 +17,7 @@ public class KarenSkill1ProrjectileController : BaseCharacterController
     private void Start()
     {
         textMest = GetComponentInChildren<TextMeshPro>();
-        textMest.text = content;    
+        textMest.text = content;
         StartCoroutine(WaitToDestroy());
     }
     void Update()
@@ -30,4 +30,4 @@ public class KarenSkill1ProrjectileController : BaseCharacterController
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
-    }
+}
