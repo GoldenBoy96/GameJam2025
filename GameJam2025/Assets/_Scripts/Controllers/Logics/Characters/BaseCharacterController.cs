@@ -151,12 +151,16 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 canUsePumb = true;
                 chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
                 bubble.SetActive(false);
+                animator.Play(AnimationConstants.Choke);
                 break;
             case PlayerState.Dead:
                 canUseSkill = false;
                 canUsePumb = false;
                 bubble.SetActive(false);
                 Observer.Notify(ObserverConstants.PLAYER_DEAD, playerPosition);
+                animator.Play(AnimationConstants.Dead);
+                characterHolder.transform.position -= new Vector3(0, 0.5f, 0);
+                characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 break;
         }
         currentState = incomingState;
