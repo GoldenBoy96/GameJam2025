@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class LightAttackProjectileController : MonoBehaviour
+public class LightAttackProjectileController : BaseProjectileController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] float speed;
+    private Rigidbody2D rb;
+
+    private void Start()
     {
-        
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        StartFlying();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StartFlying()
     {
-        
+        rb.AddForce(Vector3.right * speed);
     }
 }
