@@ -28,6 +28,7 @@ public class PrincessCharacaterController : BaseCharacterController
 
     public void StartSkill1()
     {
+        if (!UseStamina(20)) return;
         StartCoroutine(Skill1Projecttile());
     }
     public IEnumerator Skill1Projecttile()
@@ -50,12 +51,15 @@ public class PrincessCharacaterController : BaseCharacterController
     {
         base.UpdateStateAlive();
         //TODO: add cooldown?
-        //Spagheti, use GetKeyDown
-        //if (Input.GetKey(keySkill1))
-        //{
-        //    StartSkill1();
-        //}
+        DoAttackCheck();
 
+
+
+    }
+
+    protected override void DoAttackCheck()
+    {
+        base.DoAttackCheck();
 
         if (skill1CurrentCooldown <= 0)
         {
@@ -63,6 +67,7 @@ public class PrincessCharacaterController : BaseCharacterController
             {
                 StartSkill1();
                 skill1CurrentCooldown = skill1Cooldown;
+                StartCoroutine(TemporaryDisableAttack());
             }
         }
         else
@@ -117,6 +122,7 @@ public class PrincessCharacaterController : BaseCharacterController
 
     public void StartSkill2()
     {
+        if (!UseStamina(30)) return;
         skill2IsActive = true;
         StartCoroutine(CountDownSkill2());
     }

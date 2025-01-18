@@ -6,54 +6,67 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class DuolingoCharacterController : BaseCharacterController 
-    {
-    
+public class DuolingoCharacterController : BaseCharacterController
+{
+
     //thêm object pooling ở đây
-    ProjectileLightAttack lightAttack; // get from prefab while awake
+
     [SerializeField] GameObject skill1ProjectilePrefab;
     [SerializeField] GameObject skill2ProjectilePrefab;
 
-    [SerializeField] float skill1RateOfCharging = 0.1f;
+    float skill1RateOfCharging = 1 / 60f;
     [SerializeField] float startedDegree = 0;
 
-    public float maxChargeTime = 2f; // Max time to charge
+    public float maxChargeTime = 10f; // Max time to charge
     public float chargeMultiplier = 2f; // Scale multiplier for size/power
 
-    private float chargeTime = 0f;
+    [SerializeField] private float chargeTime = 0f;
     private bool isCharging = false;
-    [SerializeField]private int numberOfBullet = 3;
+    [SerializeField] private int numberOfBullet = 3;
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        isCharging = true;
-    //        chargeTime = 0f;
-    //    }
-
-    //    // Keep charging while the button is held
-    //    if (isCharging && Input.GetKey(KeyCode.Space))
-    //    {
-    //        chargeTime += skill1RateOfCharging;
-    //        chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
-    //    }
-
-    //    // Release the projectile when the button is released
-    //    if (isCharging && Input.GetKeyUp(KeyCode.Space))
-    //    {
-    //        //FireProjectile(chargeTime);
-    //        StartSkill1(chargeTime);
-    //        isCharging = false;
-    //    }
-    //    //Debug.Log(isCharging);
-    //    //Debug.Log(chargeTime);
-    //}
-
-    public void DemoShootProjectile()
+    protected override void UpdateStateAlive()
     {
-        SpawnProjectile(lightAttack, skill2ProjectilePrefab);
+        base.UpdateStateAlive();
+
+        DoAttackCheck();
     }
+
+    protected override void DoAttackCheck()
+    {
+        base.DoAttackCheck();
+
+        if (Input.GetKeyDown(keySkill1))
+        {
+            isCharging = true;
+            chargeTime = 0f;
+        }
+
+        // Keep charging while the button is held
+        if (isCharging && Input.GetKey(keySkill1))
+        {
+            if (!UseStamina(1 / 12f))
+            {
+                StartSkill1(chargeTime);
+                isCharging = false;
+                return;
+            }
+            chargeTime += skill1RateOfCharging;
+            chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
+            animator.Play(AnimationConstants.Charge);
+
+        }
+
+        // Release the projectile when the button is released
+        if (isCharging && Input.GetKeyUp(keySkill1))
+        {
+            //FireProjectile(chargeTime);
+            StartSkill1(chargeTime);
+            isCharging = false;
+        }
+        //Debug.Log(isCharging);
+        //Debug.Log(chargeTime);
+    }
+
     public void StartSkill2()
     {
         StartCoroutine(Skill1Projecttile());
@@ -62,11 +75,11 @@ public class DuolingoCharacterController : BaseCharacterController
     {
 
         //TODO: add animation, delay for animation to finish
-       
-        for (int i = -(numberOfBullet / 2); i <= numberOfBullet/2; i++)  // Tạo 3 viên đạn với góc lệch -1, 0, 1
+
+        for (int i = -(numberOfBullet / 2); i <= numberOfBullet / 2; i++)  // Tạo 3 viên đạn với góc lệch -1, 0, 1
         {
             Debug.Log($"Tia ban ra {i}");
-            GameObject bullet = SpawnProjectile(lightAttack, skill2ProjectilePrefab);
+            GameObject bullet = SpawnProjectile(new int(), skill2ProjectilePrefab);
             DuolingoSkill2ProjectileController projectileScript = bullet.GetComponent<DuolingoSkill2ProjectileController>();
 
             // Điều chỉnh hướng bay của từng viên đạn
@@ -80,14 +93,28 @@ public class DuolingoCharacterController : BaseCharacterController
 
         //TODO: add animation, delay for animation to finish
         //TODO: make it so that the setting of projectile's length and content is set in the projectile's constructor/class
+        if (chargeTime < 2) return;
 
-        GameObject bullet = SpawnProjectile(lightAttack, skill1ProjectilePrefab);
+        GameObject bullet = SpawnProjectile(skill1ProjectilePrefab, skill1ProjectilePrefab);
         DuolingoSkill1ProrjectileController projectileScript = bullet.GetComponent<DuolingoSkill1ProrjectileController>();
 
-        float chargeRatio = chargeTime / maxChargeTime; // 0 to 1
-        float size = 1f + chargeRatio * (chargeMultiplier - 1f); // Scales from 1x to chargeMultiplier
+        if (chargetime < 5)
+        {
+            projectileScript.SetLevel(0);
+        }
+        else if (chargetime < 10)
+        {
+            projectileScript.SetLevel(1);
+        }
+        else
+        {
 
-        projectileScript.spriteRenderer.transform.localScale = new Vector3(size, 1, 1);
+            projectileScript.SetLevel(2);
+        }
+        //float chargeRatio = chargeTime / maxChargeTime; // 0 to 1
+        //float size = 1f + chargeRatio * (chargeMultiplier - 1f); // Scales from 1x to chargeMultiplier
+
+        //projectileScript.spriteRenderer.transform.localScale = new Vector3(size, 1, 1);
 
     }
 
@@ -101,4 +128,4 @@ public class DuolingoCharacterController : BaseCharacterController
     //    return result;
     //}
 
-    }
+}

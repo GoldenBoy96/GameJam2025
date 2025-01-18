@@ -11,7 +11,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] GameObject skillOutput;
     [SerializeField] GameObject projectileSpawnPoint;
     [SerializeField] GameObject characterHolder;
-    [SerializeField] Animator animator;
+    [SerializeField] protected Animator animator;
 
     //thêm object pooling cho đạn ở đây
 
@@ -53,19 +53,22 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected Coroutine chokeToDeadCoroutine;
 
     //constants
-    public float minCooldown;
+    public bool isAttackAble = true;
+    public float lightAttackCoolDown = 1f;
+    public float lightAttackCoolDownCurrent = 1f;
 
     protected Rigidbody2D rb;
 
     private void Awake()
     {
-        SetUpInput();
+        SetUpInput(); isAttackAble = true;
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         SwitchToState(PlayerState.Alive);
+        StartCoroutine(RecoverStamina());
     }
 
     void Update()
@@ -86,6 +89,19 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //Debug.Log(currentState + " | " + rb.totalForce + " | " + rb.linearVelocity);
     }
 
+    private IEnumerator RecoverStamina()
+    {
+        yield return new WaitForSeconds(1f);
+        if (stamina < 100)
+        {
+            stamina++;
+        }
+        else
+        {
+            stamina = 100;
+        }
+        StartCoroutine(RecoverStamina());
+    }
     private void SetUpInput()
     {
         switch (playerPosition)
@@ -123,6 +139,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
         //projectileController.projectile = projectileData;
         GameObject result = Instantiate(projectilePrefab, transform.parent);
+        BaseProjectileController projectile = result.GetComponent<BaseProjectileController>();
+        projectile.SetOwner(this);
         //result.transform.position = projectileSpawnPoint.transform.position;
         //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
         result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
@@ -133,6 +151,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     public void DoLightAttack()
     {
+        if (!UseStamina(5)) return;
         //Debug.Log(canUseSkill);
         //if (!canUseSkill) { return; }
         ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
@@ -219,10 +238,9 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //{
         //    DoLightAttack();
         //}
-        if (Input.GetKeyDown(keyLightAttack))
-        {
-            DoLightAttack();
-        }
+
+
+
 
         characterHolder.transform.localPosition = Vector3.Lerp(characterHolder.transform.localPosition, new Vector3(rb.linearVelocity.x / 10, rb.linearVelocity.y / 10), 5 * Time.deltaTime);
         //float z = (float)Math.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.y * rb.linearVelocity.y);
@@ -262,6 +280,27 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             }
         }
 
+        DoAttackCheck();
+    }
+
+    protected virtual void DoAttackCheck()
+    {
+        if (!isAttackAble) { return; }
+
+
+        if (lightAttackCoolDownCurrent <= 0)
+        {
+            if (Input.GetKeyDown(keyLightAttack))
+            {
+                DoLightAttack();
+                lightAttackCoolDownCurrent = lightAttackCoolDown;
+                StartCoroutine(TemporaryDisableAttack());
+            }
+        }
+        else
+        {
+            lightAttackCoolDownCurrent -= 1 / 60f;
+        }
 
     }
 
@@ -322,5 +361,30 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         skillOutput.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
         playerPosition = PlayerPosition.Right;
         SetUpInput();
+    }
+    public IEnumerator TemporaryDisableAttack()
+    {
+        isAttackAble = false;
+        yield return new WaitForSeconds(1f);
+        isAttackAble = true;
+    }
+
+    public bool IsEnoughStamina(float amount)
+    {
+        if (stamina >= amount)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool UseStamina(float amount)
+    {
+        if (IsEnoughStamina(amount))
+        {
+            stamina -= amount; return true;
+        }
+        return false;
     }
 }

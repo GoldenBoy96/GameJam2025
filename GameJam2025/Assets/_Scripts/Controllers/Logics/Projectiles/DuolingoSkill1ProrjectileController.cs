@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class DuolingoSkill1ProrjectileController : MonoBehaviour
+public class DuolingoSkill1ProrjectileController : BaseProjectileController
 {
     public Vector3 dir = Vector3.left;
     [SerializeField] string content = string.Empty;
-    [SerializeField] public SpriteRenderer spriteRenderer;
+    //[SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] List<GameObject> bulletBaseOnLevelList = new List<GameObject>();
 
 
     public TextMeshPro textMest;
     private void Start()
     {
-        textMest = GetComponentInChildren<TextMeshPro>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        //textMest = GetComponentInChildren<TextMeshPro>();
+        //spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         //spriteRenderer.transform.localScale = Vector3.one;
-        textMest.text = content;
+        //textMest.text = content;
         StartCoroutine(WaitToDestroy());
     }
     void Update()
@@ -30,7 +31,16 @@ public class DuolingoSkill1ProrjectileController : MonoBehaviour
     IEnumerator WaitToDestroy()
     {
         //TODO: Chinh thoi gian mem trong model
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(20f);
         Destroy(gameObject);
+    }
+
+    public void SetLevel(int level)
+    {
+        foreach(GameObject go in bulletBaseOnLevelList)
+        {
+            go.SetActive(false);
+        }
+        bulletBaseOnLevelList[level].gameObject.SetActive(true);
     }
 }
