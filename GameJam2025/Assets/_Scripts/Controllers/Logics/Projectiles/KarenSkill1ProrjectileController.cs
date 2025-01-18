@@ -13,7 +13,7 @@ public class KarenSkill1ProrjectileController : BaseCharacterController
     [SerializeField] string content = string.Empty;
 
 
-    private TextMeshPro textMest;
+    public TextMeshPro textMest;
     private void Start()
     {
         textMest = GetComponentInChildren<TextMeshPro>();
