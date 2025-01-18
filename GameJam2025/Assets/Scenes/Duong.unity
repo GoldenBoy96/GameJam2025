@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e3ac168edf90469831ea347535b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackPrefab: {fileID: 6895550915479642650}
+  lightAttackPrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
   rotateDegree: 5
-  numberOfBullet: 3
+  numberOfBullet: 10
   startedDegree: 0
 --- !u!1 &674662906
 GameObject:
@@ -485,9 +485,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PrincessCharacaterController, Assembly-CSharp
-        m_MethodName: StartSkill1
+      - m_Target: {fileID: 455854860}
+        m_TargetAssemblyTypeName: KarenCharacterController, Assembly-CSharp
+        m_MethodName: StartSkill2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e3ac168edf90469831ea347535b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackPrefab: {fileID: 6895550915479642650}
+  lightAttackPrefab: {fileID: 7277588879486676266}
   rotateDegree: 5
   numberOfBullet: 3
   startedDegree: 0
@@ -987,6 +987,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc3f7c1b17a4f634191674d7bdd3e941, type: 3}
+--- !u!4 &1646360512356241579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277588879486676266}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2644279790613016645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1074,61 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!212 &4874261644556331934
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277588879486676266}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -235587913
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Color: {r: 0, g: 0.12321901, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!4 &5219791029306902548
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,68 +1146,33 @@ Transform:
   - {fileID: 218874264585638847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6895550915479642650 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-  m_PrefabInstance: {fileID: 6947196951568198997}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6947196951568198997
-PrefabInstance:
+--- !u!114 &5551379604865520909
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_Name
-      value: KarenSkill2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552453306127973886, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277588879486676266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015eadca510fda048928327563bc8d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bubble: {fileID: 0}
+  skillOutput: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  speed: 0
+  maxSpeed: 0
+  waterImpact: 0.005
+  rotateSpeed: 50
+  oxigen: 0
+  stamina: 0
+  chokeToDeadTime: 0
+  lightAttackPrefab: {fileID: 0}
+  heavyAttackPrefab: {fileID: 0}
+  playerPosition: 0
+  currentState: 0
+  dir: {x: -1, y: 0, z: 0}
 --- !u!1 &6978249589263152538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,6 +1189,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &7277588879486676266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646360512356241579}
+  - component: {fileID: 4874261644556331934}
+  - component: {fileID: 5551379604865520909}
+  m_Layer: 0
+  m_Name: KarenSkill2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1164,4 +1217,4 @@ SceneRoots:
   - {fileID: 2073800434}
   - {fileID: 1098109397}
   - {fileID: 455854859}
-  - {fileID: 6947196951568198997}
+  - {fileID: 1646360512356241579}
