@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 //TODO: Sua lai sang ke thua baseCharaterProjectile
-public class PrincessCharacaterController : MonoBehaviour
+public class PrincessCharacaterController : BaseCharacterController
 {
     
     //thêm object pooling ở đây
     ProjectileLightAttack lightAttack; // get from prefab while awake
-    [SerializeField] GameObject lightAttackPrefab;
+    [SerializeField] GameObject princessSkill1Prefab;
 
 
     [SerializeField] float fireRate = 0.2f;
@@ -21,7 +22,7 @@ public class PrincessCharacaterController : MonoBehaviour
 
     public void DemoShootProjectile()
     {
-        SpawnProjectile(lightAttack, lightAttackPrefab);
+        SpawnProjectile(lightAttack, princessSkill1Prefab);
     }
     public void StartSkill1()
     {
@@ -34,7 +35,7 @@ public class PrincessCharacaterController : MonoBehaviour
         for (int i = 0; i <numberOfBullet; i++)
         {
             Debug.Log($"Tia {i} ban ra");
-            GameObject bullet = SpawnProjectile(lightAttack, lightAttackPrefab);
+            GameObject bullet = SpawnProjectile(lightAttack, princessSkill1Prefab);
             PrincessSkill1ProjecttileController projectileScript = bullet.GetComponent<PrincessSkill1ProjecttileController>();
             projectileScript.dir = Quaternion.Euler(0, 0, i* rotateDegree + startedDegree) * projectileScript.dir;
             yield return new WaitForSeconds(fireRate);
@@ -50,4 +51,12 @@ public class PrincessCharacaterController : MonoBehaviour
         return result;
     }
 
+    protected override void UpdateStateAlive()
+    {
+        base.UpdateStateAlive();
+        if (Input.GetKey(keySkill1))
+        {
+            StartSkill1();
+        }
+    }
 }

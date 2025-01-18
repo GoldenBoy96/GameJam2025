@@ -4,7 +4,7 @@ using UnityEngine;
 public class LightAttackProjectileController : BaseProjectileController
 {
 
-    public Vector3 dir = Vector3.right;
+    private Vector3 dir = new Vector3(1, 0, 0);
     private void Start()
     {
         StartCoroutine(WaitToDestroy());

@@ -28,16 +28,16 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     //input base on player
     [SerializeField] PlayerPosition playerPosition;
-    private KeyCode keyUp;
-    private KeyCode keyDown;
-    private KeyCode keyLeft;
-    private KeyCode keyRight;
-    private KeyCode keyClockwise;
-    private KeyCode keyCounterClockwise;
-    private KeyCode keyLightAttack;
-    private KeyCode keyHeavyAttack;
-    private KeyCode keySkill1;
-    private KeyCode keySkill2;
+    protected KeyCode keyUp;
+    protected KeyCode keyDown;
+    protected KeyCode keyLeft;
+    protected KeyCode keyRight;
+    protected KeyCode keyClockwise;
+    protected KeyCode keyCounterClockwise;
+    protected KeyCode keyLightAttack;
+    protected KeyCode keyHeavyAttack;
+    protected KeyCode keySkill1;
+    protected KeyCode keySkill2;
 
     //Moving input manager
     protected int horizontalInput = 0;
@@ -121,7 +121,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //result.transform.position = projectileSpawnPoint.transform.position;
         //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
         result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
-        Debug.Log(skillOutput.transform.eulerAngles);
+        Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
         return result;
     }
 
@@ -158,7 +158,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         currentState = incomingState;
     }
 
-    private void UpdateStateAlive()
+    protected virtual void UpdateStateAlive()
     {
         //control movement
         horizontalInput = 0;
@@ -200,6 +200,12 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             skillOutput.transform.Rotate(0, 0, -rotateSpeed * Time.deltaTime);
         }
 
+        //control skill
+        if (Input.GetKey(keyLightAttack))
+        {
+            DoLightAttack();
+        }
+
     }
 
     private void DoWaterEffect()
@@ -222,7 +228,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
     }
 
-    private void UpdateStateChoke()
+    protected virtual void UpdateStateChoke()
     {
         //TO DO: Recover by click button follow random pattern
         if (Input.GetKeyDown(keyUp))
@@ -238,7 +244,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
     }
 
-    private void UpdateStateDead()
+    protected virtual void UpdateStateDead()
     {
 
     }
