@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class KarenSkill1ProrjectileController : BaseCharacterController
+public class KarenSkill1ProrjectileController : MonoBehaviour
 {
     public Vector3 dir = Vector3.left;
     [SerializeField] string content = string.Empty;

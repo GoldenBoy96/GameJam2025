@@ -589,6 +589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 847430479}
   - component: {fileID: 847430480}
+  - component: {fileID: 847430481}
   m_Layer: 0
   m_Name: asadasa
   m_TagString: Untagged
