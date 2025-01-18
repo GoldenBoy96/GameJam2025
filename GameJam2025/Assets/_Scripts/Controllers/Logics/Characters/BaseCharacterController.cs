@@ -8,6 +8,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 {
     [Header("Self Object")]
     [SerializeField] GameObject bubble;
+    [SerializeField] GameObject projectileSpawnPoint;
 
     //thêm object pooling cho đạn ở đây
 
@@ -41,7 +42,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected int verticalInput = 0;
 
     //State machine
-    protected PlayerState currentState = PlayerState.Alive;
+    [SerializeField]protected PlayerState currentState = PlayerState.Alive;
     protected bool canUseSkill = false;
     protected bool canUsePumb = false;
     protected int chokeRecoveryNumber = 5;
@@ -115,6 +116,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
         //projectileController.projectile = projectileData;
         GameObject result = Instantiate(projectilePrefab, transform.parent);
+        result.transform.position = projectileSpawnPoint.transform.position;
         return result;
     }
 
@@ -123,7 +125,6 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         if (!canUseSkill) { return; }
         ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
         GameObject bullet = SpawnProjectile(projectileLightAttack, lightAttackPrefab);
-        bullet.transform.position = this.transform.position;
     }
 
     public void SwitchToState(PlayerState incomingState)
@@ -154,25 +155,27 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     private void UpdateStateAlive()
     {
+        //control movement
         horizontalInput = 0;
         verticalInput = 0;
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(keyLeft))
         {
             horizontalInput = -1;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(keyRight))
         {
             horizontalInput = 1;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(keyUp))
         {
             verticalInput = 1;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(keyDown))
         {
             verticalInput = -1;
         }
 
+        //keep velocity below max speed
         if (Math.Abs(rb.linearVelocityX) < maxSpeed)
         {
             rb.AddForce(new Vector2(horizontalInput, 0) * speed);
@@ -182,7 +185,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             rb.AddForce(new Vector2(0, verticalInput) * speed);
         }
 
-        //rb.AddForce(new Vector2(horizontalInput, verticalInput) * speed);
+        //control rotate
         
     }
 
