@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-public class PrincessSkill1ProjecttileController : MonoBehaviour
+public class PrincessSkill1ProjecttileController : BaseProjectileController
 {
     public Vector3 dir = Vector3.right;
     private void Start()
