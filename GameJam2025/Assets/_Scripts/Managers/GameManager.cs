@@ -39,6 +39,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartGame();
+        //AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
+        //StartCoroutine(WaitForBattle());
+    }
+
+    IEnumerator WaitForBattle()
+    {
+        yield return new WaitForSeconds(10);
+        StartGame();
     }
 
     public void Player1ReadyToggle()
@@ -82,6 +90,10 @@ public class GameManager : MonoBehaviour
     }
     private void StartGame()
     {
+
+        //AudioManager.Instance.StopAudio(AudioConstants.CITY_OF_TEAR);
+        AudioManager.Instance.PlayAudio(AudioConstants.DECISIVE_BATTLE);
+
         player1Object = Instantiate(characterPrefab[player1Selection], transform);
         player1Object.transform.localPosition = player1Spawner.transform.localPosition;
 

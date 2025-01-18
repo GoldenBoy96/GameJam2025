@@ -64,4 +64,9 @@ public class AudioManager : MonoBehaviour
         audioSourceList[audioNameList.IndexOf(audioName)].Play();
     }
 
+    public void StopAudio(string audioName)
+    {
+        audioSourceList[audioNameList.IndexOf(audioName)].Stop();
+    }
+
 }

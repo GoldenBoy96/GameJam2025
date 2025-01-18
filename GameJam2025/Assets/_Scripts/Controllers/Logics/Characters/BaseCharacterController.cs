@@ -149,13 +149,14 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         return result;
     }
 
-    public void DoLightAttack()
+    public virtual void DoLightAttack()
     {
         if (!UseStamina(5)) return;
         //Debug.Log(canUseSkill);
         //if (!canUseSkill) { return; }
         ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
         GameObject bullet = SpawnProjectile(projectileLightAttack, lightAttackPrefab);
+        AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
     }
 
     public void SwitchToState(PlayerState incomingState)
@@ -168,6 +169,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 canUsePumb = false;
                 if (chokeToDeadCoroutine != null) StopCoroutine(chokeToDeadCoroutine);
                 bubble.SetActive(true);
+                AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
                 break;
             case PlayerState.Choking:
                 canUseSkill = false;
@@ -175,6 +177,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
                 bubble.SetActive(false);
                 animator.Play(AnimationConstants.Choke);
+                AudioManager.Instance.PlayAudio(AudioConstants.SHIELD_BROKEN);
+                AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_SHORTGUN);
                 break;
             case PlayerState.Dead:
                 canUseSkill = false;
@@ -184,6 +188,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 animator.Play(AnimationConstants.Dead);
                 characterHolder.transform.localPosition = new Vector3(0, -0.2f, 0);
                 characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
+                AudioManager.Instance.PlayAudio(AudioConstants.HIT);
                 break;
         }
         currentState = incomingState;
@@ -332,6 +338,11 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             //Subtract a lot oxigen
             oxigen -= 5;
             chokeRecoveryNumber -= 1;
+            AudioManager.Instance.PlayAudio(AudioConstants.BUMP);
+        }
+        if (oxigen <=0)
+        {
+            SwitchToState(PlayerState.Dead);
         }
         if (chokeRecoveryNumber <= 0)
         {

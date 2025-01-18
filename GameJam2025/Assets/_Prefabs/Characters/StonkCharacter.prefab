@@ -417,7 +417,6 @@ GameObject:
   - component: {fileID: 8780455546641360998}
   - component: {fileID: 8422969362588319813}
   - component: {fileID: 102739440974065961}
-  - component: {fileID: 8948043505390690432}
   - component: {fileID: 2634046250800974234}
   m_Layer: 0
   m_Name: StonkCharacter
@@ -598,44 +597,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1.5
---- !u!114 &8948043505390690432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171664677164335130}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71e3ac168edf90469831ea347535b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bubble: {fileID: 7962114252718090325}
-  skillOutput: {fileID: 6807123344946298322}
-  projectileSpawnPoint: {fileID: 6954295858454387347}
-  characterHolder: {fileID: 5547102064470269116}
-  animator: {fileID: 6949497155066241984}
-  speed: 5
-  maxSpeed: 5
-  waterImpact: 0.02
-  rotateSpeed: 200
-  oxigen: 100
-  stamina: 100
-  chokeToDeadTime: 5
-  lightAttackPrefab: {fileID: 3202089405148014691, guid: 73f958b7489920440ac4cc7ef9ef58a1, type: 3}
-  heavyAttackPrefab: {fileID: 0}
-  playerPosition: 0
-  currentState: 0
-  isAttackAble: 1
-  lightAttackCoolDown: 1
-  lightAttackCoolDownCurrent: 1
-  skill1ProjectilePrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
-  skill2ProjectilePrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-  startedDegree: 0
-  maxChargeTime: 10
-  chargeMultiplier: 2
-  chargeTime: 0
-  numberOfBullet: 3
 --- !u!114 &2634046250800974234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,7 +616,7 @@ MonoBehaviour:
   animator: {fileID: 6949497155066241984}
   speed: 5
   maxSpeed: 5
-  waterImpact: 0.002
+  waterImpact: 0.02
   rotateSpeed: 100
   oxigen: 100
   stamina: 100
@@ -667,3 +628,6 @@ MonoBehaviour:
   isAttackAble: 1
   lightAttackCoolDown: 1
   lightAttackCoolDownCurrent: 1
+  explosionPrefab: {fileID: 5595124107608925549, guid: 12def89020a669a489945ee12ca06dd3, type: 3}
+  skill1Cooldown: 10
+  skill1CurrentCooldown: 10
