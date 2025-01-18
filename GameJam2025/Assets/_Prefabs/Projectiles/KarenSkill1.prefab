@@ -46,11 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73398f40845fa164399cab99f3a74fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  maxSpeed: 0
-  waterImpact: 0.005
-  lightAttackPrefab: {fileID: 0}
-  heavyAttackPrefab: {fileID: 0}
   dir: {x: -1, y: 0, z: 0}
   content: ahaha
   textMest: {fileID: 5739486106212888603}
@@ -278,7 +273,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

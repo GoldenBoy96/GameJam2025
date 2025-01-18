@@ -11,12 +11,15 @@ public class KarenSkill1ProrjectileController : BaseCharacterController
 {
     public Vector3 dir = Vector3.left;
     [SerializeField] string content = string.Empty;
+    [SerializeField] public SpriteRenderer spriteRenderer;
 
 
     public TextMeshPro textMest;
     private void Start()
     {
         textMest = GetComponentInChildren<TextMeshPro>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        //spriteRenderer.transform.localScale = Vector3.one;
         textMest.text = content;
         StartCoroutine(WaitToDestroy());
     }

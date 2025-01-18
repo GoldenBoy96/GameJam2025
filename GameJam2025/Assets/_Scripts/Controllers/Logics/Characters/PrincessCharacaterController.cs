@@ -42,19 +42,25 @@ public class PrincessCharacaterController : BaseCharacterController
         }
     }
 
-    protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
-    {
-        //thêm chỗ gắn data cho projectile
-        //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
-        //projectileController.projectile = projectileData;
-        GameObject result = Instantiate(projectilePrefab, transform.parent);
-        return result;
-    }
+    //protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
+    //{
+    //    //thêm chỗ gắn data cho projectile
+    //    //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
+    //    //projectileController.projectile = projectileData;
+    //    GameObject result = Instantiate(projectilePrefab, transform.parent);
+    //    return result;
+    //}
 
     protected override void UpdateStateAlive()
     {
         base.UpdateStateAlive();
-        if (Input.GetKey(keySkill1))
+        //TODO: add cooldown?
+        //Spagheti, use GetKeyDown
+        //if (Input.GetKey(keySkill1))
+        //{
+        //    StartSkill1();
+        //}
+        if (Input.GetKeyDown(keySkill1))
         {
             StartSkill1();
         }

@@ -241,7 +241,7 @@ MonoBehaviour:
   oxigen: 100
   stamina: 100
   chokeToDeadTime: 5
-  lightAttackPrefab: {fileID: 0}
+  lightAttackPrefab: {fileID: 3202089405148014691, guid: 73f958b7489920440ac4cc7ef9ef58a1, type: 3}
   heavyAttackPrefab: {fileID: 0}
   playerPosition: 0
   currentState: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 public class LightAttackProjectileController : BaseProjectileController
 {
 
-    private Vector3 dir = new Vector3(1, 0, 0);
+    [SerializeField]private Vector3 dir = new Vector3(1, 0, 0);
     private void Start()
     {
         StartCoroutine(WaitToDestroy());

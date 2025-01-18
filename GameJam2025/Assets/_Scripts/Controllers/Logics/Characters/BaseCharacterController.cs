@@ -121,7 +121,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //result.transform.position = projectileSpawnPoint.transform.position;
         //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
         result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
-        Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
+        //Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
         return result;
     }
 
@@ -201,7 +201,13 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
 
         //control skill
-        if (Input.GetKey(keyLightAttack))
+        //TODO: add cooldown?
+        //Spagheti, use GetKeyDown
+        //if (Input.GetKey(keyLightAttack))
+        //{
+        //    DoLightAttack();
+        //}
+        if (Input.GetKeyDown(keyLightAttack))
         {
             DoLightAttack();
         }
