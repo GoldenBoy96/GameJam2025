@@ -8,13 +8,15 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 {
     [Header("Self Object")]
     [SerializeField] GameObject bubble;
+    [SerializeField] GameObject skillOutput;
     [SerializeField] GameObject projectileSpawnPoint;
 
     //thêm object pooling cho đạn ở đây
 
-    [SerializeField] float speed;
-    [SerializeField] float maxSpeed;
-    [SerializeField] float waterImpact = 0.005f; //TO DO: Chuyển cái này sang game manager
+    [SerializeField] float speed = 5;
+    [SerializeField] float maxSpeed = 5;
+    [SerializeField] float waterImpact = 0.002f; //TO DO: Chuyển cái này sang game manager
+    [SerializeField] protected float rotateSpeed = 50;
 
     //stats
     [SerializeField] float oxigen;
@@ -42,7 +44,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected int verticalInput = 0;
 
     //State machine
-    [SerializeField]protected PlayerState currentState = PlayerState.Alive;
+    [SerializeField] protected PlayerState currentState = PlayerState.Alive;
     protected bool canUseSkill = false;
     protected bool canUsePumb = false;
     protected int chokeRecoveryNumber = 5;
@@ -63,7 +65,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     void Update()
     {
-        switch(currentState)
+        switch (currentState)
         {
             case PlayerState.Alive:
                 UpdateStateAlive();
@@ -116,7 +118,10 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
         //projectileController.projectile = projectileData;
         GameObject result = Instantiate(projectilePrefab, transform.parent);
-        result.transform.position = projectileSpawnPoint.transform.position;
+        //result.transform.position = projectileSpawnPoint.transform.position;
+        //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
+        result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
+        Debug.Log(skillOutput.transform.eulerAngles);
         return result;
     }
 
@@ -186,7 +191,15 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
 
         //control rotate
-        
+        if (Input.GetKey(keyClockwise))
+        {
+            skillOutput.transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey(keyCounterClockwise))
+        {
+            skillOutput.transform.Rotate(0, 0, -rotateSpeed * Time.deltaTime);
+        }
+
     }
 
     private void DoWaterEffect()
@@ -212,7 +225,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     private void UpdateStateChoke()
     {
         //TO DO: Recover by click button follow random pattern
-        if (Input.GetKey(keyUp))
+        if (Input.GetKeyDown(keyUp))
         {
             //Subtract a lot oxigen
             oxigen -= 5;

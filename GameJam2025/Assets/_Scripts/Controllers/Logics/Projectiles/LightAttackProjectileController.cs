@@ -1,18 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
 public class LightAttackProjectileController : BaseProjectileController
 {
-    [SerializeField] float speed;
-    private Rigidbody2D rb;
 
+    public Vector3 dir = Vector3.right;
     private void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        StartFlying();
+        StartCoroutine(WaitToDestroy());
     }
-
-    private void StartFlying()
+    void Update()
     {
-        rb.AddForce(Vector3.right * speed);
+        transform.Translate(dir * 10 * Time.deltaTime);
+
+    }
+    IEnumerator WaitToDestroy()
+    {
+        //TODO: Chinh thoi gian mem trong model
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
 }
