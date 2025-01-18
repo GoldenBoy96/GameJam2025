@@ -122,6 +122,22 @@ public class KarenCharacterController : MonoBehaviour
 
     }
 
+    public void Skill1Projecttile(float chargetime)
+    {
+
+        //TODO: add animation, delay for animation to finish
+        //TODO: make it so that the setting of projectile's length and content is set in the projectile's constructor/class
+
+        GameObject bullet = SpawnProjectile(lightAttack, lightAttackPrefab);
+        KarenSkill1ProrjectileController projectileScript = bullet.GetComponent<KarenSkill1ProrjectileController>();
+
+        float chargeRatio = chargeTime / maxChargeTime; // 0 to 1
+        float size = 1f + chargeRatio * (chargeMultiplier - 1f); // Scales from 1x to chargeMultiplier
+
+        projectileScript.spriteRenderer.transform.localScale = new Vector3(1, 1, size);
+
+    }
+
     protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
     {
         //thêm chỗ gắn data cho projectile
