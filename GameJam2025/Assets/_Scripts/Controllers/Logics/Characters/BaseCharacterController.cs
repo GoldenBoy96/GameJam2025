@@ -10,13 +10,15 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] GameObject bubble;
     [SerializeField] GameObject skillOutput;
     [SerializeField] GameObject projectileSpawnPoint;
+    [SerializeField] GameObject characterHolder;
+    [SerializeField] Animator animator;
 
     //thêm object pooling cho đạn ở đây
 
     [SerializeField] float speed = 5;
     [SerializeField] float maxSpeed = 5;
     [SerializeField] float waterImpact = 0.002f; //TO DO: Chuyển cái này sang game manager
-    [SerializeField] protected float rotateSpeed = 50;
+    [SerializeField] protected float rotateSpeed = 100;
 
     //stats
     [SerializeField] float oxigen;
@@ -77,7 +79,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 UpdateStateDead();
                 break;
         }
-        DoWaterEffect();
+
         //Debug.Log(currentState + " | " + rb.totalForce + " | " + rb.linearVelocity);
     }
 
@@ -127,7 +129,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     public void DoLightAttack()
     {
-        if (!canUseSkill) { return; }
+        //Debug.Log(canUseSkill);
+        //if (!canUseSkill) { return; }
         ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
         GameObject bullet = SpawnProjectile(projectileLightAttack, lightAttackPrefab);
     }
@@ -153,6 +156,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 canUseSkill = false;
                 canUsePumb = false;
                 bubble.SetActive(false);
+                Observer.Notify(ObserverConstants.PLAYER_DEAD, playerPosition);
                 break;
         }
         currentState = incomingState;
@@ -212,6 +216,40 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             DoLightAttack();
         }
 
+        characterHolder.transform.localPosition = Vector3.Lerp(characterHolder.transform.localPosition, new Vector3(rb.linearVelocity.x / 10, rb.linearVelocity.y / 10), 5 * Time.deltaTime);
+        //float z = (float)Math.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.y * rb.linearVelocity.y);
+        //characterHolder.transform.Rotate(new Vector3(0, 0, z));
+        //if (rb.linearVelocity != Vector2.zero)
+        //{
+        //    characterHolder.transform.rotation = Quaternion.Slerp(characterHolder.transform.rotation, Quaternion.LookRotation(rb.linearVelocity), Time.deltaTime * 40f);
+        //    characterHolder.transform.rotation = Quaternion.Euler(0, 0, characterHolder.transform.rotation.z);
+        //}
+        //transform.position = Vector3.Lerp(transform.position, myTargetPosition.position, speed * Time.deltaTime);
+
+        if (horizontalInput == 0 && verticalInput == 0)
+        {
+            DoWaterEffect();
+            if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Idle)
+            {
+                animator.Play(AnimationConstants.Idle);
+                characterHolder.transform.rotation = Quaternion.Euler(Vector2.zero);
+            }
+        }
+        else
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Swim)
+        {
+            animator.Play(AnimationConstants.Swim);
+            if (horizontalInput > 0)
+            {
+                characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -30));
+            }
+            else
+            {
+                characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 30));
+            }
+        }
+
+
     }
 
     private void DoWaterEffect()
@@ -252,7 +290,6 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     protected virtual void UpdateStateDead()
     {
-
     }
     private IEnumerator WaitChokeToDead()
     {
@@ -264,5 +301,13 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     {
         SwitchToState(PlayerState.Choking);
 
+    }
+
+    public void SpawnRight()
+    {
+        characterHolder.GetComponent<SpriteRenderer>().flipX = false;
+        skillOutput.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+        playerPosition = PlayerPosition.Right;
+        SetUpInput();
     }
 }

@@ -17,7 +17,7 @@ public class BaseProjectileController : MonoBehaviour
     //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("OnTriggerEnter2D " + collision.gameObject.name);
+        //Debug.Log("OnTriggerEnter2D " + collision.gameObject.name);
         if (collision.gameObject.TryGetComponent<ICanBeDamage>(out var target))
         {
             BaseCharacterController targetController = collision.gameObject.GetComponent<BaseCharacterController>();

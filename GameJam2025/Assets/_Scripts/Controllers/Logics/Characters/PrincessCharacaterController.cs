@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 //TODO: Sua lai sang ke thua baseCharaterProjectile
 public class PrincessCharacaterController : BaseCharacterController
 {
@@ -30,14 +31,15 @@ public class PrincessCharacaterController : BaseCharacterController
     }
     public IEnumerator Skill1Projecttile()
     {
-
+        int random = Random.Range(0, 2);
+        if (random == 0) random = -1;
         //TODO: add animation, delay for animation to finish
         for (int i = 0; i <numberOfBullet; i++)
         {
-            Debug.Log($"Tia {i} ban ra");
+            //Debug.Log($"Tia {i} ban ra");
             GameObject bullet = SpawnProjectile(lightAttack, princessSkill1Prefab);
             PrincessSkill1ProjecttileController projectileScript = bullet.GetComponent<PrincessSkill1ProjecttileController>();
-            projectileScript.dir = Quaternion.Euler(0, 0, i* rotateDegree + startedDegree) * projectileScript.dir;
+            projectileScript.dir = Quaternion.Euler(0, 0, i* rotateDegree * random + startedDegree) * projectileScript.dir;
             yield return new WaitForSeconds(fireRate);
         }
     }

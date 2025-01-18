@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8552453306127973886}
   - component: {fileID: 2579927025157490379}
-  - component: {fileID: 3270475927544248408}
+  - component: {fileID: 3078327051006491208}
   m_Layer: 0
-  m_Name: KarenSkill2
+  m_Name: DuolingoSkill2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -235587913
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0, g: 0.12321901, b: 1, a: 1}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3270475927544248408
+--- !u!114 &3078327051006491208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,17 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 330546553746145407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 015eadca510fda048928327563bc8d18, type: 3}
+  m_Script: {fileID: 11500000, guid: 83c462bbebf03ea4f82a117f71ba9a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubble: {fileID: 0}
-  speed: 0
-  maxSpeed: 0
-  waterImpact: 0.005
-  oxigen: 0
-  stamina: 0
-  chokeToDeadTime: 0
-  lightAttackPrefab: {fileID: 0}
-  heavyAttackPrefab: {fileID: 0}
-  playerPosition: 0
   dir: {x: -1, y: 0, z: 0}

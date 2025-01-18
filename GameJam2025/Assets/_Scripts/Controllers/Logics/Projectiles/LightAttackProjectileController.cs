@@ -17,7 +17,7 @@ public class LightAttackProjectileController : BaseProjectileController
     IEnumerator WaitToDestroy()
     {
         //TODO: Chinh thoi gian mem trong model
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         Destroy(gameObject);
     }
 }

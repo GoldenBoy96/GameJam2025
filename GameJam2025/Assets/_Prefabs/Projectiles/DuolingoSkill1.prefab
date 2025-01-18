@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4355467568519297305}
   - component: {fileID: 3286016749450340617}
   m_Layer: 0
-  m_Name: KarenSkill1
+  m_Name: DuolingoSkill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: {x: -1, y: 0, z: 0}
   content: ahaha
+  spriteRenderer: {fileID: 6634844003215003150}
   textMest: {fileID: 5739486106212888603}
 --- !u!1 &5030906790243483596
 GameObject:
@@ -123,7 +124,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1401090665
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.647707, g: 0.3160377, b: 1, a: 1}
@@ -215,7 +216,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -482668267
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5739486106212888603
