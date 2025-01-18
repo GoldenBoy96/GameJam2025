@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         player1Object.transform.localPosition = player1Spawner.transform.localPosition;
 
 
-        player2Object = Instantiate(characterPrefab[player1Selection], transform);
+        player2Object = Instantiate(characterPrefab[player2Selection], transform);
         player2Object.transform.localPosition = player2Spawner.transform.localPosition;
         player2Object.GetComponent<BaseCharacterController>().SpawnRight();
     }

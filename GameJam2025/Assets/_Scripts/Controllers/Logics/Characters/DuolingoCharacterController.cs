@@ -14,9 +14,7 @@ public class DuolingoCharacterController : BaseCharacterController
     [SerializeField] GameObject skill1ProjectilePrefab;
     [SerializeField] GameObject skill2ProjectilePrefab;
 
-    [SerializeField] float skill1ReateOfCharging = 0.1f;
-    [SerializeField] float rotateDegree = 5;
-    [SerializeField] int numberOfBullet = 3;
+    [SerializeField] float skill1RateOfCharging = 0.1f;
     [SerializeField] float startedDegree = 0;
 
     public float maxChargeTime = 2f; // Max time to charge
@@ -24,32 +22,33 @@ public class DuolingoCharacterController : BaseCharacterController
 
     private float chargeTime = 0f;
     private bool isCharging = false;
+    [SerializeField]private int numberOfBullet = 3;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isCharging = true;
-            chargeTime = 0f;
-        }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        isCharging = true;
+    //        chargeTime = 0f;
+    //    }
 
-        // Keep charging while the button is held
-        if (isCharging && Input.GetKey(KeyCode.Space))
-        {
-            chargeTime += skill1ReateOfCharging;
-            chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
-        }
+    //    // Keep charging while the button is held
+    //    if (isCharging && Input.GetKey(KeyCode.Space))
+    //    {
+    //        chargeTime += skill1RateOfCharging;
+    //        chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
+    //    }
 
-        // Release the projectile when the button is released
-        if (isCharging && Input.GetKeyUp(KeyCode.Space))
-        {
-            //FireProjectile(chargeTime);
-            StartSkill1(chargeTime);
-            isCharging = false;
-        }
-        Debug.Log(isCharging);
-        Debug.Log(chargeTime);
-    }
+    //    // Release the projectile when the button is released
+    //    if (isCharging && Input.GetKeyUp(KeyCode.Space))
+    //    {
+    //        //FireProjectile(chargeTime);
+    //        StartSkill1(chargeTime);
+    //        isCharging = false;
+    //    }
+    //    //Debug.Log(isCharging);
+    //    //Debug.Log(chargeTime);
+    //}
 
     public void DemoShootProjectile()
     {
@@ -71,7 +70,7 @@ public class DuolingoCharacterController : BaseCharacterController
             DuolingoSkill2ProjectileController projectileScript = bullet.GetComponent<DuolingoSkill2ProjectileController>();
 
             // Điều chỉnh hướng bay của từng viên đạn
-            projectileScript.dir = Quaternion.Euler(0, 0, i * rotateDegree + startedDegree) * projectileScript.dir;
+            //projectileScript.dir = Quaternion.Euler(0, 0, i * rotateDegree + startedDegree) * projectileScript.dir;
         }
         yield return new WaitForSeconds(0.2f);
     }

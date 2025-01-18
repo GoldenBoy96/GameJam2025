@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 315234321
     locked: 0
+  - name: MidGround
+    uniqueID: 2948893441
+    locked: 0
   - name: CharacterEquipment
     uniqueID: 3502987573
     locked: 0

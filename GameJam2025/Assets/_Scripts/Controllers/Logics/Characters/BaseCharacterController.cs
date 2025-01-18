@@ -15,9 +15,9 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     //thêm object pooling cho đạn ở đây
 
-    [SerializeField] float speed = 5;
-    [SerializeField] float maxSpeed = 5;
-    [SerializeField] float waterImpact = 0.002f; //TO DO: Chuyển cái này sang game manager
+    [SerializeField] protected float speed = 5;
+    [SerializeField] protected float maxSpeed = 5;
+    [SerializeField] protected float waterImpact = 0.002f; //TO DO: Chuyển cái này sang game manager
     [SerializeField] protected float rotateSpeed = 100;
 
     //stats
@@ -52,7 +52,10 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected int chokeRecoveryNumber = 5;
     protected Coroutine chokeToDeadCoroutine;
 
-    Rigidbody2D rb;
+    //constants
+    public float minCooldown;
+
+    protected Rigidbody2D rb;
 
     private void Awake()
     {
@@ -124,6 +127,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
         result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
         //Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
+        animator.Play(AnimationConstants.Attack);
         return result;
     }
 
@@ -159,7 +163,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 bubble.SetActive(false);
                 Observer.Notify(ObserverConstants.PLAYER_DEAD, playerPosition);
                 animator.Play(AnimationConstants.Dead);
-                characterHolder.transform.position -= new Vector3(0, 0.5f, 0);
+                characterHolder.transform.localPosition = new Vector3(0, -0.2f, 0);
                 characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 break;
         }
@@ -193,7 +197,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         {
             rb.AddForce(new Vector2(horizontalInput, 0) * speed);
         }
-        if (Math.Abs(rb.linearVelocityX) < maxSpeed)
+        if (Math.Abs(rb.linearVelocityY) < maxSpeed)
         {
             rb.AddForce(new Vector2(0, verticalInput) * speed);
         }
@@ -233,11 +237,16 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         if (horizontalInput == 0 && verticalInput == 0)
         {
             DoWaterEffect();
-            if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Idle)
+            try
             {
-                animator.Play(AnimationConstants.Idle);
-                characterHolder.transform.rotation = Quaternion.Euler(Vector2.zero);
+                if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Idle
+                    && animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Attack)
+                {
+                    animator.Play(AnimationConstants.Idle);
+                    characterHolder.transform.rotation = Quaternion.Euler(Vector2.zero);
+                }
             }
+            catch { }
         }
         else
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Swim)
