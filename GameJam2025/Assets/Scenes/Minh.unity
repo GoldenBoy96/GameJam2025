@@ -559,6 +559,10 @@ PrefabInstance:
       value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 3760791528413382028, guid: 2a8587333ab6c5b418a5961daa028587, type: 3}
+      propertyPath: playerPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760791528413382028, guid: 2a8587333ab6c5b418a5961daa028587, type: 3}
       propertyPath: chokeToDeadTime
       value: 5
       objectReference: {fileID: 0}
