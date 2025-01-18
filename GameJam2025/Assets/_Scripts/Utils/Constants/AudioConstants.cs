@@ -12,4 +12,5 @@ public static class AudioConstants
     public static readonly string DECISIVE_BATTLE = "DECISIVE_BATTLE";
     public static readonly string BUMP = "BUMP";
     public static readonly string EXPLOSION_SOUND = "EXPLOSION_SOUND";
+    public static readonly string HIT = "HIT";
 }
