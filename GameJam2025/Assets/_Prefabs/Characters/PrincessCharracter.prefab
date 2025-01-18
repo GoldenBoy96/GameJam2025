@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -235587913
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1533077371, guid: d08b4d98f8c712844bada5fb679e5876, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -191,7 +191,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -235587913
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7ea6d666e8bdfcb40830d9d207862dee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -323,7 +323,7 @@ MonoBehaviour:
   speed: 5
   maxSpeed: 5
   waterImpact: 0.02
-  rotateSpeed: 100
+  rotateSpeed: 200
   oxigen: 100
   stamina: 100
   chokeToDeadTime: 5
@@ -331,11 +331,17 @@ MonoBehaviour:
   heavyAttackPrefab: {fileID: 0}
   playerPosition: 0
   currentState: 0
+  minCooldown: 0
   princessSkill1Prefab: {fileID: 9056576250548231980, guid: fc3f7c1b17a4f634191674d7bdd3e941, type: 3}
   fireRate: 0.2
   rotateDegree: 5
   numberOfBullet: 5
   startedDegree: 0
+  skill1Cooldown: 10
+  skill1CurrentCooldown: 10
+  skill2Cooldown: 15
+  skill2CurrentCooldown: 15
+  skill2IsActive: 0
 --- !u!1 &1957031309308731753
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +449,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791979723
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 293e28292bd59c94585097664feb0df0, type: 3}
   m_Color: {r: 0.47750083, g: 0.8118219, b: 0.9924528, a: 0.6745098}
@@ -529,8 +535,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -791979723
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.39811313, g: 1, b: 0.9845017, a: 0.23137255}
@@ -617,7 +623,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791979723
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 0, b: 0.746027, a: 1}
