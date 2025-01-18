@@ -14,6 +14,7 @@ public class DuolingoCharacterController : BaseCharacterController
     [SerializeField] GameObject skill1ProjectilePrefab;
     [SerializeField] GameObject skill2ProjectilePrefab;
 
+    [SerializeField] float skill1ReateOfCharging = 0.1f;
     [SerializeField] float rotateDegree = 5;
     [SerializeField] int numberOfBullet = 3;
     [SerializeField] float startedDegree = 0;
@@ -26,7 +27,7 @@ public class DuolingoCharacterController : BaseCharacterController
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isCharging = true;
             chargeTime = 0f;
@@ -35,7 +36,7 @@ public class DuolingoCharacterController : BaseCharacterController
         // Keep charging while the button is held
         if (isCharging && Input.GetKey(KeyCode.Space))
         {
-            chargeTime += Time.deltaTime;
+            chargeTime += skill1ReateOfCharging;
             chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
         }
 

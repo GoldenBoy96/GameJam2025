@@ -625,9 +625,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e3ac168edf90469831ea347535b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackPrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
+  bubble: {fileID: 1766288054}
+  skillOutput: {fileID: 2114498449}
+  projectileSpawnPoint: {fileID: 880141436}
+  speed: 5
+  maxSpeed: 5
+  waterImpact: 0.002
+  rotateSpeed: 50
+  oxigen: 0
+  stamina: 0
+  chokeToDeadTime: 0
+  lightAttackPrefab: {fileID: 3202089405148014691, guid: 73f958b7489920440ac4cc7ef9ef58a1, type: 3}
+  heavyAttackPrefab: {fileID: 0}
+  playerPosition: 0
+  currentState: 0
+  skill1ProjectilePrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
+  skill2ProjectilePrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
+  skill1ReateOfCharging: 0.1
   rotateDegree: 5
-  numberOfBullet: 5
+  numberOfBullet: 3
   startedDegree: 0
   maxChargeTime: 2
   chargeMultiplier: 2
@@ -686,6 +702,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &880141436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7062354940510247770, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+  m_PrefabInstance: {fileID: 1783608052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &945073528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,6 +1108,72 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: feae24e1f112f0147bb95fbf99c1b821, type: 3}
+--- !u!1 &1766288054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8021898502635404008, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+  m_PrefabInstance: {fileID: 1783608052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1783608052
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4693263101620479250, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_Name
+      value: DuolingoCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.599909
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.95236474
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945505308367685063, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
 --- !u!1 &1875769328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,8 +1337,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 847430480}
-        m_TargetAssemblyTypeName: KarenCharacterController, Assembly-CSharp
-        m_MethodName: StartSkill1
+        m_TargetAssemblyTypeName: DuolingoCharacterController, Assembly-CSharp
+        m_MethodName: StartSkill2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1331,6 +1418,11 @@ Transform:
   - {fileID: 688170717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2114498449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6624988684948798921, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+  m_PrefabInstance: {fileID: 1783608052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1343,3 +1435,4 @@ SceneRoots:
   - {fileID: 1875769331}
   - {fileID: 144367583}
   - {fileID: 1543936685}
+  - {fileID: 1783608052}
