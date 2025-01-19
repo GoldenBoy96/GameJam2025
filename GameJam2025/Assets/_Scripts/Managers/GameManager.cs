@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
-
         if (instance == null)
         {
             instance = this;
+            Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
+
         }
         else
         {
@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
-        //AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
+        //StartGame();
+        AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
         //StartCoroutine(WaitForBattle());
     }
 
