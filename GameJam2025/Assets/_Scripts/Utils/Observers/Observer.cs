@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Observer: MonoBehaviour
+public class Observer : MonoBehaviour
 {
     static Dictionary<string, List<Action<object[]>>> Listeners =
         new();
@@ -27,7 +27,7 @@ public class Observer: MonoBehaviour
         Listeners[name].Remove(callback);
     }
 
-    public static void Notify( string name, params object[] data)
+    public static void Notify(string name, params object[] data)
     {
         if (!Listeners.ContainsKey(name))
         {

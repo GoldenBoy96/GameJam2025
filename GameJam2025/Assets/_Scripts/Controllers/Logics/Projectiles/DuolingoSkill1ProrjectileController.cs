@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -37,7 +33,7 @@ public class DuolingoSkill1ProrjectileController : BaseProjectileController
 
     public void SetLevel(int level)
     {
-        foreach(GameObject go in bulletBaseOnLevelList)
+        foreach (GameObject go in bulletBaseOnLevelList)
         {
             go.SetActive(false);
         }

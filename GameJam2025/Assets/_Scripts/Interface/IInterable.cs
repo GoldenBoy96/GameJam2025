@@ -1,8 +1,6 @@
-using UnityEngine;
-
-public interface IInterable 
+public interface IInterable
 {
-    float Cooldown { get;}
+    float Cooldown { get; }
 
     public void Interact();
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject player1Object;
     [SerializeField] GameObject player2Object;
 
+    [SerializeField] public BaseCharacterController player1;
+    [SerializeField] public BaseCharacterController player2;
+
+    [SerializeField] public GameObject StartScreen;
+    [SerializeField] public GameObject EndScreen;
+    [SerializeField] public TextMeshProUGUI WinnerLabel;
+    [SerializeField] public TMP_Dropdown Player1Selection;
+    [SerializeField] public TMP_Dropdown Player2Selection;
+
     public static GameManager Instance { get => instance; }
 
     private void Awake()
@@ -36,16 +46,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Start()
     {
-        //StartGame();
-        AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
+        
         //StartCoroutine(WaitForBattle());
     }
 
     IEnumerator WaitForBattle()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(1);
+        ////AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
         StartGame();
     }
 
@@ -88,9 +98,11 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    private void StartGame()
+    public void StartGame()
     {
-
+        player1Selection = Player1Selection.value;
+        player2Selection = Player2Selection.value;
+        StartScreen.SetActive(false);
         //AudioManager.Instance.StopAudio(AudioConstants.CITY_OF_TEAR);
         AudioManager.Instance.PlayAudio(AudioConstants.DECISIVE_BATTLE);
 
@@ -101,6 +113,10 @@ public class GameManager : MonoBehaviour
         player2Object = Instantiate(characterPrefab[player2Selection], transform);
         player2Object.transform.localPosition = player2Spawner.transform.localPosition;
         player2Object.GetComponent<BaseCharacterController>().SpawnRight();
+
+
+        player1 = player1Object.GetComponent<BaseCharacterController>();
+        player2 = player2Object.GetComponent<BaseCharacterController>();
     }
 
     private void StopGame(PlayerPosition deadPlayerPosition)
@@ -108,10 +124,14 @@ public class GameManager : MonoBehaviour
         if (deadPlayerPosition == PlayerPosition.Left)
         {
             Debug.Log("Player 2 win!!!");
+            EndScreen.SetActive(true);
+            WinnerLabel.text = "Player 2 win!!!";
         }
         else if (deadPlayerPosition == PlayerPosition.Right)
         {
             Debug.Log("Player 1 win!!!");
+            EndScreen.SetActive(true);
+            WinnerLabel.text = "Player 1 win!!!";
         }
     }
 

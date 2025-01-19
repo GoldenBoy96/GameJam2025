@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b60e351fb11a9d468321a913ac52039, type: 3}
-  m_Name: Chill Guy
+  m_Name: Princess Bubble Tea
   m_EditorClassIdentifier: 
-  characterName: Chill
-  characterSprite: {fileID: 21300000, guid: 51c289b95ba18794096638221f91adb2, type: 3}
-  zoom: 1
+  characterName: Princess Bubble Tea
+  characterSprite: {fileID: -1533077371, guid: d08b4d98f8c712844bada5fb679e5876, type: 3}
+  zoom: 0.3

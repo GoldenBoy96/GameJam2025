@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class InputConstants 
+public static class InputConstants
 {
     public static KeyCode PLAYER_1_UP = KeyCode.W;
     public static KeyCode PLAYER_1_DOWN = KeyCode.S;
@@ -20,7 +20,7 @@ public static class InputConstants
     public static KeyCode PLAYER_2_CLOCKWISE = KeyCode.Quote;
     public static KeyCode PLAYER_2_COUNTERCLOCKWISE = KeyCode.Slash;
     public static KeyCode PLAYER_2_LIGHT_ATTACK = KeyCode.Semicolon;
-    public static KeyCode PLAYER_2_HEAVY_ATTACK = KeyCode.Period;  
+    public static KeyCode PLAYER_2_HEAVY_ATTACK = KeyCode.Period;
     public static KeyCode PLAYER_2_SKILL_1 = KeyCode.L;
     public static KeyCode PLAYER_2_SKILL_2 = KeyCode.Comma;
 }

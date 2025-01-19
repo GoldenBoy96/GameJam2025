@@ -1,9 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnhInteract : MonoBehaviour, IInterable
 {
-    [SerializeField]private float CooldownSpaghetti = 5f;
+    [SerializeField] private float CooldownSpaghetti = 5f;
     private float _currentCooldown;
 
     public float Cooldown => throw new System.NotImplementedException();
@@ -14,7 +13,7 @@ public class AnhInteract : MonoBehaviour, IInterable
     }
     public void Interact()
     {
-        if(_currentCooldown > 0)
+        if (_currentCooldown > 0)
         {
             return;
         }
