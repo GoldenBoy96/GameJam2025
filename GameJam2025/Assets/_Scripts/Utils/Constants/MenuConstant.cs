@@ -11,4 +11,7 @@ using System.Threading.Tasks;
 
     public static readonly string CharCellArtWork = "Artwork";
     public static readonly string CharCellName = "NameRect";
+
+
+    //public static readonly string CharSlotName = "Name";
 }

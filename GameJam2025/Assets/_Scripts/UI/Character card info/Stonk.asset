@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b60e351fb11a9d468321a913ac52039, type: 3}
-  m_Name: Fire FLy
+  m_Name: Stonk
   m_EditorClassIdentifier: 
-  characterName: Fire Fly
-  characterSprite: {fileID: 21300000, guid: af653e76eab559747abf90fc5520ef36, type: 3}
-  zoom: 1
+  characterName: Stonk
+  characterSprite: {fileID: -174858529, guid: 373c5604b8dd16940912f3a95c30a9bf, type: 3}
+  zoom: 0.3
