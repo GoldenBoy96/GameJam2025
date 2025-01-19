@@ -8,7 +8,7 @@
 
 //public class KarenCharacterController : MonoBehaviour 
 //    {
-    
+
 //    //thêm object pooling ở đây
 //    ProjectileLightAttack lightAttack; // get from prefab while awake
 //    [SerializeField] GameObject lightAttackPrefab;
@@ -31,10 +31,10 @@
 //    {
 
 //        //TODO: add animation, delay for animation to finish
-       
+
 //        for (int i = -(numberOfBullet / 2); i <= numberOfBullet/2; i++)  // Tạo 3 viên đạn với góc lệch -1, 0, 1
 //        {
- 
+
 //            Debug.Log($"Tia ban ra {i}");
 //            GameObject bullet = SpawnProjectile(lightAttack, lightAttackPrefab);
 //            KarenSkill2ProjectileController projectileScript = bullet.GetComponent<KarenSkill2ProjectileController>();

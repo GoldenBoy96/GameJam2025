@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Data;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseCharacterController : MonoBehaviour, ICanBeDamage
@@ -21,8 +19,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] protected float rotateSpeed = 100;
 
     //stats
-    [SerializeField] float oxigen;
-    [SerializeField] float stamina;
+    [SerializeField] public float oxigen;
+    [SerializeField] public float stamina;
     [SerializeField] float chokeToDeadTime;
 
     [SerializeField] GameObject lightAttackPrefab;
@@ -172,13 +170,16 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
                 break;
             case PlayerState.Choking:
-                canUseSkill = false;
-                canUsePumb = true;
-                chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
-                bubble.SetActive(false);
-                animator.Play(AnimationConstants.Choke);
-                AudioManager.Instance.PlayAudio(AudioConstants.SHIELD_BROKEN);
-                AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_SHORTGUN);
+                if (chokeToDeadCoroutine == null)
+                {
+                    canUseSkill = false;
+                    canUsePumb = true;
+                    chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
+                    bubble.SetActive(false);
+                    animator.Play(AnimationConstants.Choke);
+                    AudioManager.Instance.PlayAudio(AudioConstants.SHIELD_BROKEN);
+                    AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_SHORTGUN);
+                }
                 break;
             case PlayerState.Dead:
                 canUseSkill = false;
@@ -340,7 +341,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             chokeRecoveryNumber -= 1;
             AudioManager.Instance.PlayAudio(AudioConstants.BUMP);
         }
-        if (oxigen <=0)
+        if (oxigen <= 0)
         {
             SwitchToState(PlayerState.Dead);
         }

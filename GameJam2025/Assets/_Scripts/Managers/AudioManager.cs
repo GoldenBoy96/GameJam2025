@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,12 +60,20 @@ public class AudioManager : MonoBehaviour
 
     public void PlayAudio(string audioName)
     {
-        audioSourceList[audioNameList.IndexOf(audioName)].Play();
+        try
+        {
+            audioSourceList[audioNameList.IndexOf(audioName)].Play();
+        }
+        catch { }
     }
 
     public void StopAudio(string audioName)
     {
-        audioSourceList[audioNameList.IndexOf(audioName)].Stop();
+        try
+        {
+            audioSourceList[audioNameList.IndexOf(audioName)].Stop();
+        }
+        catch { }
     }
 
 }

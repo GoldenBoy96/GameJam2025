@@ -1,13 +1,7 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class CharacterSelectionCSS : MonoBehaviour
@@ -92,7 +86,8 @@ public class CharacterSelectionCSS : MonoBehaviour
         }
 
 
-    }    private void GetP2Input()
+    }
+    private void GetP2Input()
     {
         //if (Input.GetAxis("Horizontal") != 0)
         if (Input.GetKeyDown(InputConstants.PLAYER_2_LEFT) || Input.GetKeyDown(InputConstants.PLAYER_2_RIGHT))

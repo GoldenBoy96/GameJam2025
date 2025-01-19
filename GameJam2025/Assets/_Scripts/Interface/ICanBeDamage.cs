@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public interface ICanBeDamage 
+public interface ICanBeDamage
 {
     public void GetDamage();
 }

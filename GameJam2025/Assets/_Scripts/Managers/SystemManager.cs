@@ -1,27 +1,32 @@
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SystemManager : MonoBehaviour
 {
-   private static SystemManager instance;
+    private static SystemManager instance;
 
-    public static SystemManager Instance { get => instance;}
+    public static SystemManager Instance { get => instance; }
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        
+
     }
 
     public void GoToMainMenu()
     {
-        //TODO
+        SceneManager.LoadScene("Start Screen");
+    }
+    public void JoinGame()
+    {
+        SceneManager.LoadScene("Main");
     }
 }

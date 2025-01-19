@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 public class PrincessSkill1ProjecttileController : BaseProjectileController
 {
@@ -22,7 +17,7 @@ public class PrincessSkill1ProjecttileController : BaseProjectileController
     IEnumerator WaitToDestroy()
     {
         //TODO: Chinh thoi gian mem trong model
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         Destroy(gameObject);
     }
 }

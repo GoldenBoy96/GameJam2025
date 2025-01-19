@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProjectileLightAttack 
+public class ProjectileLightAttack
 {
     private Vector3 dir = Vector3.right;
     void Update()

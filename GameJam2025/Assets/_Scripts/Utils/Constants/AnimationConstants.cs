@@ -1,5 +1,5 @@
 
-public static class AnimationConstants 
+public static class AnimationConstants
 {
     public static readonly string Idle = "Idle";
     public static readonly string Swim = "Swim";
