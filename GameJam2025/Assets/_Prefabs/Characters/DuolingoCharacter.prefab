@@ -308,13 +308,15 @@ MonoBehaviour:
   heavyAttackPrefab: {fileID: 0}
   playerPosition: 0
   currentState: 0
-  minCooldown: 0
+  isAttackAble: 1
+  lightAttackCoolDown: 1
+  lightAttackCoolDownCurrent: 1
   skill1ProjectilePrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
   skill2ProjectilePrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-  skill1RateOfCharging: 0.1
   startedDegree: 0
-  maxChargeTime: 2
+  maxChargeTime: 15
   chargeMultiplier: 2
+  chargeTime: 0
   numberOfBullet: 3
 --- !u!1 &6624988684948798921
 GameObject:

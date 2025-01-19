@@ -71,6 +71,13 @@ public class DuolingoCharacterController : BaseCharacterController
     {
         StartCoroutine(Skill1Projecttile());
     }
+
+    public override void DoLightAttack()
+    {
+        base.DoLightAttack();
+        AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_RIGHT);
+    }
+
     public IEnumerator Skill1Projecttile()
     {
 
@@ -108,9 +115,11 @@ public class DuolingoCharacterController : BaseCharacterController
         }
         else
         {
-
             projectileScript.SetLevel(2);
         }
+
+
+        AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_WRONG);
         //float chargeRatio = chargeTime / maxChargeTime; // 0 to 1
         //float size = 1f + chargeRatio * (chargeMultiplier - 1f); // Scales from 1x to chargeMultiplier
 
