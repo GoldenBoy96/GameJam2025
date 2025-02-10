@@ -1,7 +1,7 @@
 public enum PlayerState
 {
     Alive,
-    Choking,
+    Choke,
     Dead,
 }
 

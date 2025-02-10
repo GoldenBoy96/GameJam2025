@@ -76,7 +76,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             case PlayerState.Alive:
                 UpdateStateAlive();
                 break;
-            case PlayerState.Choking:
+            case PlayerState.Choke:
                 UpdateStateChoke();
                 break;
             case PlayerState.Dead:
@@ -169,7 +169,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 bubble.SetActive(true);
                 AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
                 break;
-            case PlayerState.Choking:
+            case PlayerState.Choke:
                 if (chokeToDeadCoroutine == null)
                 {
                     canUseSkill = false;
@@ -363,7 +363,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     public void GetDamage()
     {
-        SwitchToState(PlayerState.Choking);
+        SwitchToState(PlayerState.Choke);
 
     }
 
