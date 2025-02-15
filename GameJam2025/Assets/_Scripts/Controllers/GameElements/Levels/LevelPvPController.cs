@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class LevelPvPController : BaseLevelController
 {
-    private static GameManager instance;
-
+    [Header("Player Spawn Point")]
     [SerializeField] GameObject player1Spawner;
     [SerializeField] GameObject player2Spawner;
 
+
+    [Header("Character Selection")]
     [SerializeField] List<GameObject> characterPrefab;
     [SerializeField] int player1Selection;
     [SerializeField] int player2Selection;
@@ -17,46 +18,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool player2Ready = false;
 
 
+    [Header("Runtime Data")]
     [SerializeField] GameObject player1Object;
     [SerializeField] GameObject player2Object;
 
-    [SerializeField] public BaseCharacterController player1;
-    [SerializeField] public BaseCharacterController player2;
+    [SerializeField] BaseCharacterController player1;
+    [SerializeField] BaseCharacterController player2;
 
+    [Header("UI Handler")]
     [SerializeField] public GameObject StartScreen;
     [SerializeField] public GameObject EndScreen;
     [SerializeField] public TextMeshProUGUI WinnerLabel;
     [SerializeField] public TMP_Dropdown Player1Selection;
     [SerializeField] public TMP_Dropdown Player2Selection;
 
-    public static GameManager Instance { get => instance; }
 
-    private void Awake()
+    protected override void SetupLevel()
     {
-        if (instance == null)
-        {
-            instance = this;
-            Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
-
-        }
-        else
-        {
-            Destroy(gameObject);
-
-        }
-    }
-
-    public void Start()
-    {
-        
-        //StartCoroutine(WaitForBattle());
-    }
-
-    IEnumerator WaitForBattle()
-    {
-        yield return new WaitForSeconds(1);
-        ////AudioManager.Instance.PlayAudio(AudioConstants.CITY_OF_TEAR);
-        StartGame();
+        Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
     }
 
     public void Player1ReadyToggle()
@@ -98,7 +77,8 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public void StartGame()
+
+    public override void StartGame()
     {
         player1Selection = Player1Selection.value;
         player2Selection = Player2Selection.value;
@@ -112,22 +92,32 @@ public class GameManager : MonoBehaviour
 
         player2Object = Instantiate(characterPrefab[player2Selection], transform);
         player2Object.transform.localPosition = player2Spawner.transform.localPosition;
-        //player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight();
+
 
 
         player1 = player1Object.GetComponent<BaseCharacterController>();
         player2 = player2Object.GetComponent<BaseCharacterController>();
+
+        if (player1.CharacterName.Equals(player2.CharacterName))
+        {
+            player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight(true);
+        }
+        else
+        {
+            player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight(false);
+        }
+        StartCoroutine(MakePlayerFaceToFace());
     }
 
-    private void StopGame(PlayerPosition deadPlayerPosition)
+    public override void StopGame(PlayerPosition deadPlayer)
     {
-        if (deadPlayerPosition == PlayerPosition.Left)
+        if (deadPlayer == PlayerPosition.Left)
         {
             Debug.Log("Player 2 win!!!");
             EndScreen.SetActive(true);
             WinnerLabel.text = "Player 2 win!!!";
         }
-        else if (deadPlayerPosition == PlayerPosition.Right)
+        else if (deadPlayer == PlayerPosition.Right)
         {
             Debug.Log("Player 1 win!!!");
             EndScreen.SetActive(true);
@@ -135,13 +125,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Restart()
+    public override void Restart()
     {
         //reload scene
     }
 
-    public void ReturnToMainMenu()
+    public override void ReturnToMainMenu()
     {
         //load scene menu
     }
+
+
+    private IEnumerator MakePlayerFaceToFace()
+    {
+        Debug.Log(player1Object.transform.position.x < player2Object.transform.position.x);
+        if (player1Object.transform.position.x < player2Object.transform.position.x)
+        {
+            player1.Flip(PlayerDirection.Right);
+            player2.Flip(PlayerDirection.Left);
+        }
+        else
+        {
+            player1.Flip(PlayerDirection.Left);
+            player2.Flip(PlayerDirection.Right);
+        }
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(MakePlayerFaceToFace());
+    }
+
 }

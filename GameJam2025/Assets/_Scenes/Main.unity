@@ -1278,8 +1278,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 789443435}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 789443437}
+        m_TargetAssemblyTypeName: LevelPvPController, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -2922,7 +2922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 789443436}
-  - component: {fileID: 789443435}
+  - component: {fileID: 789443437}
   m_Layer: 0
   m_Name: '[Game]'
   m_TagString: Untagged
@@ -2930,37 +2930,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &789443435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789443434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04b0dbf36938fcc48b07dd06eeac4fd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1Spawner: {fileID: 1482483234}
-  player2Spawner: {fileID: 882612490}
-  characterPrefab:
-  - {fileID: 756751350550246006, guid: feae24e1f112f0147bb95fbf99c1b821, type: 3}
-  - {fileID: 4693263101620479250, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
-  - {fileID: 9171664677164335130, guid: 085f36a55e48f0541b888f27dc28eacd, type: 3}
-  player1Selection: 2
-  player2Selection: 1
-  player1Ready: 1
-  player2Ready: 0
-  player1Object: {fileID: 0}
-  player2Object: {fileID: 0}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  StartScreen: {fileID: 884328833}
-  EndScreen: {fileID: 1406370140}
-  WinnerLabel: {fileID: 1404274897}
-  Player1Selection: {fileID: 59290126}
-  Player2Selection: {fileID: 2110453030}
 --- !u!4 &789443436
 Transform:
   m_ObjectHideFlags: 0
@@ -2980,6 +2949,37 @@ Transform:
   - {fileID: 1011420852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &789443437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789443434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953e3c0051981174dbcd1f237aff86d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Spawner: {fileID: 1482483234}
+  player2Spawner: {fileID: 882612490}
+  characterPrefab:
+  - {fileID: 756751350550246006, guid: feae24e1f112f0147bb95fbf99c1b821, type: 3}
+  - {fileID: 4693263101620479250, guid: 71b89e0deb73c914eae9cf10c0f625b4, type: 3}
+  - {fileID: 9171664677164335130, guid: 085f36a55e48f0541b888f27dc28eacd, type: 3}
+  player1Selection: 0
+  player2Selection: 0
+  player1Ready: 0
+  player2Ready: 0
+  player1Object: {fileID: 0}
+  player2Object: {fileID: 0}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
+  StartScreen: {fileID: 884328833}
+  EndScreen: {fileID: 1406370140}
+  WinnerLabel: {fileID: 1404274897}
+  Player1Selection: {fileID: 59290126}
+  Player2Selection: {fileID: 2110453030}
 --- !u!1 &817586837
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class BaseCharacterController : MonoBehaviour, ICanBeDamage
+public class BaseCharacterController_Refactor : MonoBehaviour
 {
     [Header("Self Object")]
     [SerializeField] GameObject bubble;
@@ -12,7 +12,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] protected Animator animator;
 
     //thêm object pooling cho đạn ở đây
-
+    [Header("Character Data")]
+    [SerializeField] protected string characterName = "Unknown Character";
     [SerializeField] protected float speed = 5;
     [SerializeField] protected float maxSpeed = 5;
     [SerializeField] protected float waterImpact = 0.002f; //TO DO: Chuyển cái này sang game manager
@@ -59,14 +60,16 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     private void Awake()
     {
-        SetUpInput(); isAttackAble = true;
+        SetUpInput();
+        isAttackAble = true;
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        SwitchToState(PlayerState.Alive);
-        StartCoroutine(RecoverStamina());
+        SetupFlip();
+        SwitchToState(PlayerState.Alive); 
+        SetupSecondaryColor();
     }
 
     void Update()
@@ -87,6 +90,40 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         //Debug.Log(currentState + " | " + rb.totalForce + " | " + rb.linearVelocity);
     }
 
+    public void SetupSecondaryColor()
+    {
+        if (characterHolder.TryGetComponent<SpriteRenderer>(out var sprite))
+        {
+            ColorUtility.TryParseHtmlString(ColorConstants.CHARATER_SECONDARY_COLOR, out Color colorFromHex);
+            sprite.color = colorFromHex;
+            //Debug.Log(sprite + " | " + ColorConstants.CHARATER_SECONDARY_COLOR + " | " + sprite.color + " | " + colorFromHex);
+        }
+    }
+    private void SetupFlip()
+    {
+        switch (playerPosition)
+        {
+            case PlayerPosition.Left:
+                Flip(PlayerDirection.Right);
+                break;
+            case PlayerPosition.Right:
+                Flip(PlayerDirection.Left);
+                break;
+        }
+    }
+    public void Flip(PlayerDirection direction)
+    {
+        switch (direction)
+        {
+            case PlayerDirection.Left:
+                characterHolder.transform.localScale = new Vector3(-1, 1, 1);
+                break;
+            case PlayerDirection.Right:
+                characterHolder.transform.localScale = new Vector3(1, 1, 1);
+                break;
+        }
+        Debug.Log(playerPosition + " | " + direction + " | " + transform.localScale);
+    }
     private IEnumerator RecoverStamina()
     {
         yield return new WaitForSeconds(1f);
@@ -131,74 +168,50 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
     }
 
-    protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
-    {
-        //thêm chỗ gắn data cho projectile
-        //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
-        //projectileController.projectile = projectileData;
-        GameObject result = Instantiate(projectilePrefab, transform.parent);
-        BaseProjectileController projectile = result.GetComponent<BaseProjectileController>();
-        projectile.SetOwner(this);
-        //result.transform.position = projectileSpawnPoint.transform.position;
-        //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
-        result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
-        //Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
-        animator.Play(AnimationConstants.Attack);
-        return result;
-    }
-
-    public virtual void DoLightAttack()
-    {
-        if (!UseStamina(5)) return;
-        //Debug.Log(canUseSkill);
-        //if (!canUseSkill) { return; }
-        ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
-        GameObject bullet = SpawnProjectile(projectileLightAttack, lightAttackPrefab);
-        AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
-    }
-
+    #region State Machine
     public void SwitchToState(PlayerState incomingState)
     {
-        //Change current state and status that follow the state
+        switch (currentState)
+        {
+            case PlayerState.Alive:
+                ExitStateAlive();
+                break;
+            case PlayerState.Choke:
+                ExitStateChoke();
+                break;
+            case PlayerState.Dead:
+                ExitStateDead();
+                break;
+        }
         switch (incomingState)
         {
             case PlayerState.Alive:
-                canUseSkill = true;
-                canUsePumb = false;
-                if (chokeToDeadCoroutine != null) StopCoroutine(chokeToDeadCoroutine);
-                bubble.SetActive(true);
-                AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
+                EnterStateAlive();
                 break;
             case PlayerState.Choke:
-                if (chokeToDeadCoroutine == null)
-                {
-                    canUseSkill = false;
-                    canUsePumb = true;
-                    chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
-                    bubble.SetActive(false);
-                    animator.Play(AnimationConstants.Choke);
-                    AudioManager.Instance.PlayAudio(AudioConstants.SHIELD_BROKEN);
-                    AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_SHORTGUN);
-                }
+                EnterStateChoke();
                 break;
             case PlayerState.Dead:
-                canUseSkill = false;
-                canUsePumb = false;
-                bubble.SetActive(false);
-                Observer.Notify(ObserverConstants.PLAYER_DEAD, playerPosition);
-                animator.Play(AnimationConstants.Dead);
-                characterHolder.transform.localPosition = new Vector3(0, -0.2f, 0);
-                characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
-                AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
-                AudioManager.Instance.PlayAudio(AudioConstants.HIT);
+                EnterStateDead();
                 break;
         }
         currentState = incomingState;
     }
 
-    protected virtual void UpdateStateAlive()
+    #region State Alive
+    protected virtual void EnterStateAlive()
     {
-        //control movement
+        canUseSkill = true;
+        canUsePumb = false;
+        if (chokeToDeadCoroutine != null) StopCoroutine(chokeToDeadCoroutine);
+        bubble.SetActive(true);
+        AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
+
+        StartCoroutine(RecoverStamina());
+    }
+
+    protected virtual void UpdateStateAlive()
+    {//control movement
         horizontalInput = 0;
         verticalInput = 0;
         if (Input.GetKey(keyLeft))
@@ -289,7 +302,101 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
         DoAttackCheck();
     }
+    protected virtual void ExitStateAlive()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+    #region State Choke
+    protected virtual void EnterStateChoke()
+    {
+        chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
+        if (chokeToDeadCoroutine == null)
+        {
+            canUseSkill = false;
+            canUsePumb = true;
+            //chokeToDeadCoroutine = StartCoroutine(WaitChokeToDead());
+            bubble.SetActive(false);
+            animator.Play(AnimationConstants.Choke);
+            AudioManager.Instance.PlayAudio(AudioConstants.SHIELD_BROKEN);
+            AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_SHORTGUN);
+        }
+    }
+    protected virtual void UpdateStateChoke()
+    {
 
+    }
+    protected virtual void ExitStateChoke()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+    #region State Dead
+    protected virtual void EnterStateDead()
+    {
+        canUseSkill = false;
+        canUsePumb = false;
+        bubble.SetActive(false);
+        Observer.Notify(ObserverConstants.PLAYER_DEAD, playerPosition);
+        animator.Play(AnimationConstants.Dead);
+        characterHolder.transform.localPosition = new Vector3(0, -0.2f, 0);
+        characterHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        AudioManager.Instance.StopAudio(AudioConstants.BUBBLE_SHORTGUN);
+        AudioManager.Instance.PlayAudio(AudioConstants.HIT);
+    }
+    protected virtual void UpdateStateDead()
+    {
+    }
+    protected virtual void ExitStateDead()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+
+    private IEnumerator WaitChokeToDead()
+    {
+        yield return new WaitForSeconds(chokeToDeadTime);
+        SwitchToState(PlayerState.Dead);
+    }
+
+    #region Sprite Controller
+    public void SwitchToSecondaryColor()
+    {
+
+    }
+    public void FlipLeft()
+    {
+
+    }
+    public void FlipRight()
+    {
+
+    }
+    #endregion
+    #endregion
+    #region Attack
+    protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
+    {
+        //thêm chỗ gắn data cho projectile
+        //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
+        //projectileController.projectile = projectileData;
+        GameObject result = Instantiate(projectilePrefab, transform.parent);
+        //BaseProjectileController projectile = result.GetComponent<BaseProjectileController>();
+        //projectile.SetOwner(this);
+        //result.transform.position = projectileSpawnPoint.transform.position;
+        //result.transform.eulerAngles = skillOutput.transform.eulerAngles;
+        result.transform.SetLocalPositionAndRotation(projectileSpawnPoint.transform.position, skillOutput.transform.localRotation);
+        result.transform.localRotation = Quaternion.Euler(
+            new Vector3(
+                result.transform.localRotation.eulerAngles.x ,
+                result.transform.localRotation.eulerAngles.y,
+                result.transform.localRotation.eulerAngles.z * characterHolder.transform.localScale.x + 180
+                ));
+
+        Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
+        animator.Play(AnimationConstants.Attack);
+        return result;
+    }
     protected virtual void DoAttackCheck()
     {
         if (!isAttackAble) { return; }
@@ -310,7 +417,40 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
 
     }
+    public IEnumerator TemporaryDisableAttack()
+    {
+        isAttackAble = false;
+        yield return new WaitForSeconds(1f);
+        isAttackAble = true;
+    }
+    public virtual void DoLightAttack()
+    {
+        if (!UseStamina(5)) return;
+        //Debug.Log(canUseSkill);
+        //if (!canUseSkill) { return; }
+        ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
+        GameObject bullet = SpawnProjectile(projectileLightAttack, lightAttackPrefab);
+        AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
+    }
+    public bool IsEnoughStamina(float amount)
+    {
+        if (stamina >= amount)
+        {
+            return true;
+        }
 
+        return false;
+    }
+
+    public bool UseStamina(float amount)
+    {
+        if (IsEnoughStamina(amount))
+        {
+            stamina -= amount; return true;
+        }
+        return false;
+    }
+    #endregion
     private void DoWaterEffect()
     {
         if (rb.linearVelocityX > 0)
@@ -329,74 +469,5 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         {
             rb.linearVelocityY += waterImpact;
         }
-    }
-
-    protected virtual void UpdateStateChoke()
-    {
-        //TO DO: Recover by click button follow random pattern
-        if (Input.GetKeyDown(keyUp))
-        {
-            //Subtract a lot oxigen
-            oxigen -= 5;
-            chokeRecoveryNumber -= 1;
-            AudioManager.Instance.PlayAudio(AudioConstants.BUMP);
-        }
-        if (oxigen <= 0)
-        {
-            SwitchToState(PlayerState.Dead);
-        }
-        if (chokeRecoveryNumber <= 0)
-        {
-            SwitchToState(PlayerState.Alive);
-            chokeRecoveryNumber = 5;
-        }
-    }
-
-    protected virtual void UpdateStateDead()
-    {
-    }
-    private IEnumerator WaitChokeToDead()
-    {
-        yield return new WaitForSeconds(chokeToDeadTime);
-        SwitchToState(PlayerState.Dead);
-    }
-
-    public void GetDamage()
-    {
-        SwitchToState(PlayerState.Choke);
-
-    }
-
-    public void SpawnRight()
-    {
-        characterHolder.GetComponent<SpriteRenderer>().flipX = false;
-        skillOutput.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
-        playerPosition = PlayerPosition.Right;
-        SetUpInput();
-    }
-    public IEnumerator TemporaryDisableAttack()
-    {
-        isAttackAble = false;
-        yield return new WaitForSeconds(1f);
-        isAttackAble = true;
-    }
-
-    public bool IsEnoughStamina(float amount)
-    {
-        if (stamina >= amount)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool UseStamina(float amount)
-    {
-        if (IsEnoughStamina(amount))
-        {
-            stamina -= amount; return true;
-        }
-        return false;
     }
 }

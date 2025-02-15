@@ -87,6 +87,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4900772877289334101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535454782314894695}
+  m_Layer: 0
+  m_Name: CharacterHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1535454782314894695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4900772877289334101}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2134978904404903563}
+  - {fileID: 4624318515637609685}
+  m_Father: {fileID: 4802768315085961377}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5547102064470269116
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +132,7 @@ GameObject:
   - component: {fileID: 7072143988181159544}
   - component: {fileID: 6949497155066241984}
   m_Layer: 0
-  m_Name: CharacterSprite
+  m_Name: CharacterRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4802768315085961377}
+  m_Father: {fileID: 1535454782314894695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7072143988181159544
 SpriteRenderer:
@@ -221,13 +254,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6807123344946298322}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8709502289471470113}
-  m_Father: {fileID: 4802768315085961377}
+  m_Father: {fileID: 1535454782314894695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6954295858454387347
 GameObject:
@@ -439,8 +472,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1879246103805500254}
-  - {fileID: 2134978904404903563}
-  - {fileID: 4624318515637609685}
+  - {fileID: 1535454782314894695}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2460421240358852699
@@ -612,8 +644,10 @@ MonoBehaviour:
   bubble: {fileID: 7962114252718090325}
   skillOutput: {fileID: 6807123344946298322}
   projectileSpawnPoint: {fileID: 6954295858454387347}
-  characterHolder: {fileID: 5547102064470269116}
+  characterHolder: {fileID: 4900772877289334101}
+  characterRenderer: {fileID: 5547102064470269116}
   animator: {fileID: 6949497155066241984}
+  characterName: Stonk
   speed: 5
   maxSpeed: 5
   waterImpact: 0.02
@@ -624,6 +658,7 @@ MonoBehaviour:
   lightAttackPrefab: {fileID: 3202089405148014691, guid: 73f958b7489920440ac4cc7ef9ef58a1, type: 3}
   heavyAttackPrefab: {fileID: 0}
   playerPosition: 0
+  playerDirection: 1
   currentState: 0
   isAttackAble: 1
   lightAttackCoolDown: 1
