@@ -5,7 +5,6 @@ using UnityEngine;
 public class DotcomCharacterController : BaseCharacterController
 {
     //thêm object pooling ở đây
-    ProjectileLightAttack lightAttack; // get from prefab while awake
     [SerializeField] GameObject spherePrefab;
     [SerializeField] Transform player;
     [SerializeField] Transform target;
@@ -14,7 +13,6 @@ public class DotcomCharacterController : BaseCharacterController
     [SerializeField] float maxSize = 5;
     [SerializeField] float amountIncrease = 1;
     [SerializeField] float coolDown = 1;
-    [SerializeField] float speed = 5f;
     [SerializeField] float followDistance = 2f;
     [SerializeField] KeyCode growKey = KeyCode.E; // Nút kích hoạt tăng kích thước
 

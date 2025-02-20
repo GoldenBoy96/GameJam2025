@@ -32,7 +32,28 @@ public class LevelPvPController : BaseLevelController
     [SerializeField] public TMP_Dropdown Player1Selection;
     [SerializeField] public TMP_Dropdown Player2Selection;
 
+    [Header("State")]
+    [SerializeField] LevelState currentState = LevelState.Prepare;
 
+    public BaseCharacterController Player1 { get => player1;}
+    public BaseCharacterController Player2 { get => player2; }
+
+    private void Awake()
+    {
+        Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) =>
+        {
+            StopGame((PlayerPosition)x[0]);
+            SwitchToState(LevelState.Ending);
+        });
+        Observer.AddObserver(ObserverConstants.PLAYER_CHOKE, (x) =>
+        {
+            SwitchToState(LevelState.Waiting);
+        });
+        Observer.AddObserver(ObserverConstants.PLAYER_REVIVE, (x) =>
+        {
+            SwitchToState(LevelState.Playing);
+        });
+    }
     protected override void SetupLevel()
     {
         Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
@@ -80,6 +101,9 @@ public class LevelPvPController : BaseLevelController
 
     public override void StartGame()
     {
+        Debug.Log("StartGame");
+
+
         player1Selection = Player1Selection.value;
         player2Selection = Player2Selection.value;
         StartScreen.SetActive(false);
@@ -106,7 +130,9 @@ public class LevelPvPController : BaseLevelController
         {
             player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight(false);
         }
-        StartCoroutine(MakePlayerFaceToFace());
+
+
+        SwitchToState(LevelState.Playing);
     }
 
     public override void StopGame(PlayerPosition deadPlayer)
@@ -138,7 +164,7 @@ public class LevelPvPController : BaseLevelController
 
     private IEnumerator MakePlayerFaceToFace()
     {
-        Debug.Log(player1Object.transform.position.x < player2Object.transform.position.x);
+        //Debug.Log(player1Object.transform.position.x < player2Object.transform.position.x);
         if (player1Object.transform.position.x < player2Object.transform.position.x)
         {
             player1.Flip(PlayerDirection.Right);
@@ -153,4 +179,126 @@ public class LevelPvPController : BaseLevelController
         StartCoroutine(MakePlayerFaceToFace());
     }
 
+    #region State Machine
+    public override void SwitchToState(LevelState incomingState)
+    {
+        switch (currentState)
+        {
+            case LevelState.Prepare:
+                ExitStatePrepare();
+                break;
+            case LevelState.Playing:
+                ExitStatePlaying();
+                break;
+            case LevelState.Waiting:
+                Debug.Log("ExitStateWaiting");
+                ExitStateWaiting();
+                break;
+            case LevelState.Ending:
+                ExitStateEnding();
+                break;
+        }
+        currentState = incomingState;
+        switch (incomingState)
+        {
+            case LevelState.Prepare:
+                EnterStatePrepare();
+                break;
+            case LevelState.Playing:
+                EnterStatePlaying();
+                break;
+            case LevelState.Waiting:
+                EnterStateWaiting();
+                break;
+            case LevelState.Ending:
+                EnterStateEnding();
+                break;
+        }
+        //Debug.Log(currentState.ToString());
+    }
+
+    #region State Prepare
+    protected virtual void EnterStatePrepare()
+    {
+    }
+
+    protected virtual void UpdateStatePrepare()
+    {
+    }
+    protected virtual void ExitStatePrepare()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+    #region State Playing
+    protected virtual void EnterStatePlaying()
+    {
+        Debug.Log("EnterStatePlaying");
+        player1.SwitchToState(PlayerState.Alive);
+        player2.SwitchToState(PlayerState.Alive);
+        StartCoroutine(MakePlayerFaceToFace());
+    }
+
+    protected virtual void UpdateStatePlaying()
+    {
+    }
+    protected virtual void ExitStatePlaying()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+    #region State Waiting
+    protected virtual void EnterStateWaiting()
+    {
+        if (player1.CurrentState == PlayerState.Alive)
+        {
+            player1.SwitchToState(PlayerState.Waiting);
+        }
+
+        if (player2.CurrentState == PlayerState.Alive)
+        {
+            player2.SwitchToState(PlayerState.Waiting);
+        }
+    }
+
+    protected virtual void UpdateStateWaiting()
+    {
+    }
+    protected virtual void ExitStateWaiting()
+    {
+        StopAllCoroutines();
+        if (player1.CurrentState == PlayerState.Waiting)
+        {
+            player1.SwitchToState(PlayerState.Alive);
+        }
+
+        if (player2.CurrentState == PlayerState.Waiting)
+        {
+            player2.SwitchToState(PlayerState.Alive);
+        }
+    }
+    #endregion
+    #region State Ending
+    protected virtual void EnterStateEnding()
+    {
+        if (player1.CurrentState != PlayerState.Dead)
+        {
+            player1.SwitchToState(PlayerState.Waiting);
+        }
+
+        if (player2.CurrentState != PlayerState.Dead)
+        {
+            player2.SwitchToState(PlayerState.Waiting);
+        }
+    }
+
+    protected virtual void UpdateStateEnding()
+    {
+    }
+    protected virtual void ExitStateEnding()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
+    #endregion
 }

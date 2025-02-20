@@ -642,6 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 7962114252718090325}
+  bubbleCollider: {fileID: 102739440974065961}
   skillOutput: {fileID: 6807123344946298322}
   projectileSpawnPoint: {fileID: 6954295858454387347}
   characterHolder: {fileID: 4900772877289334101}
@@ -655,6 +656,8 @@ MonoBehaviour:
   oxigen: 100
   stamina: 100
   chokeToDeadTime: 5
+  bubbleGravity: -0.12
+  noBubbleGravity: 0.5
   lightAttackPrefab: {fileID: 3202089405148014691, guid: 73f958b7489920440ac4cc7ef9ef58a1, type: 3}
   heavyAttackPrefab: {fileID: 0}
   playerPosition: 0

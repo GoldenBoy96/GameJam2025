@@ -19,7 +19,7 @@ public class BaseProjectileController : MonoBehaviour
             {
                 target.GetDamage();
 
-                Destroy(gameObject);
+                ReturnProjectileToPool();
             }
         }
     }
@@ -37,5 +37,10 @@ public class BaseProjectileController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    public virtual void ReturnProjectileToPool()
+    {
+        PoolingHelper.ReturnObjectToPool(gameObject);
     }
 }

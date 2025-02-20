@@ -22,11 +22,6 @@ public class BaseLevelController : MonoBehaviour
         }
     }
 
-    public void Start()
-    {
-
-        //StartCoroutine(WaitForBattle());
-    }
 
     protected virtual void SetupLevel()
     {
@@ -52,7 +47,7 @@ public class BaseLevelController : MonoBehaviour
     }
 
     #region State Machine
-    public void SwitchToState(LevelState incomingState)
+    public virtual void SwitchToState(LevelState incomingState)
     {
         
     }

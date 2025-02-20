@@ -2178,6 +2178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57bb99604066c9e4b838e0e2360488be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelPvPController: {fileID: 789443437}
   player1Oxigen: {fileID: 394487569}
   player1Stamina: {fileID: 1469039726}
   player2Oxigen: {fileID: 1540156250}
@@ -2980,6 +2981,7 @@ MonoBehaviour:
   WinnerLabel: {fileID: 1404274897}
   Player1Selection: {fileID: 59290126}
   Player2Selection: {fileID: 2110453030}
+  currentState: 0
 --- !u!1 &817586837
 GameObject:
   m_ObjectHideFlags: 0

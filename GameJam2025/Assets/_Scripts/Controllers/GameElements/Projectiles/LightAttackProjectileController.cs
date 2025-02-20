@@ -4,14 +4,14 @@ using UnityEngine;
 public class LightAttackProjectileController : BaseProjectileController
 {
 
-    [SerializeField] private Vector3 dir = new Vector3(1, 0, 0);
-    private void Start()
+    [SerializeField] private Vector3 dir = new(1, 0, 0);
+     void Start()
     {
         StartCoroutine(WaitToDestroy());
     }
     void Update()
     {
-        transform.Translate(dir * 10 * Time.deltaTime);
+        transform.Translate(10 * Time.deltaTime * dir);
 
     }
     IEnumerator WaitToDestroy()

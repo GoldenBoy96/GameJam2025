@@ -3,8 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainUIManager : MonoBehaviour
+public class LevelPvPUIManager : MonoBehaviour
 {
+    [SerializeField] LevelPvPController levelPvPController;
     [SerializeField] Slider player1Oxigen;
     [SerializeField] Slider player1Stamina;
     [SerializeField] Slider player2Oxigen;
@@ -19,10 +20,10 @@ public class MainUIManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         try
         {
-            player1Oxigen.value = GameManager.Instance.player1.oxigen / 100f;
-            player2Oxigen.value = GameManager.Instance.player2.oxigen / 100f;
-            player1Stamina.value = GameManager.Instance.player1.stamina / 100f;
-            player2Stamina.value = GameManager.Instance.player2.stamina / 100f;
+            player1Oxigen.value = levelPvPController.Player1.oxigen / 100f;
+            player2Oxigen.value = levelPvPController.Player2.oxigen / 100f;
+            player1Stamina.value = levelPvPController.Player1.stamina / 100f;
+            player2Stamina.value = levelPvPController.Player2.stamina / 100f;
 
         }
         catch { }

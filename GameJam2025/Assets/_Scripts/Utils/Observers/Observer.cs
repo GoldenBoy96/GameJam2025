@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Observer : MonoBehaviour
@@ -14,7 +15,9 @@ public class Observer : MonoBehaviour
             Listeners.Add(name, new List<Action<object[]>>());
         }
 
-        Listeners[name].Add(callback);
+        if (!Listeners[name].Contains(callback)) {
+            Listeners[name].Add(callback);
+        }
     }
 
     public static void RemoveObserver(string name, Action<object[]> callback)
@@ -34,7 +37,7 @@ public class Observer : MonoBehaviour
             return;
         }
 
-        foreach (var listener in Listeners[name])
+        foreach (var listener in Listeners[name].ToList())
         {
             try
             {
@@ -42,7 +45,8 @@ public class Observer : MonoBehaviour
             }
             catch (Exception ex)
             {
-                Debug.LogError("Error on invoke listener: " + ex);
+                RemoveObserver(name, listener);
+                //Debug.LogError("Error on invoke listener: " + ex);
             }
         }
     }

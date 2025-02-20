@@ -1,6 +1,7 @@
 public enum PlayerState
 {
     Alive,
+    Waiting,
     Choke,
     Dead,
 }
@@ -21,5 +22,6 @@ public enum LevelState
 {
     Prepare,
     Playing,
+    Waiting,
     Ending
 }
