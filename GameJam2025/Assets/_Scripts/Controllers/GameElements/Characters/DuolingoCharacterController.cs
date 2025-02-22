@@ -8,23 +8,40 @@ public class DuolingoCharacterController : BaseCharacterController
 
     [SerializeField] GameObject skill1ProjectilePrefab;
     [SerializeField] GameObject skill2ProjectilePrefab;
+    [SerializeField] GameObject skill3ProjectilePrefab;
 
-    float skill1RateOfCharging = 1 / 60f;
-    [SerializeField] float startedDegree = 0;
+    protected void DoSkill1Check()
+    {
+        if (Input.GetKey(keySkill1))
+        {
+            isAttackAble = false;
+            //SpawnProjectile<string>(null, skill1ProjectilePrefab);
+        }
+        else if (Input.GetKeyUp(keySkill1)) { 
+            isAttackAble = true;
+            //Code bắn ở đây
+        }
+    }
+    #region State Machine
+    protected override void UpdateStateAlive()
+    {
+        base.UpdateStateAlive();
 
-    public float maxChargeTime = 10f; // Max time to charge
-    public float chargeMultiplier = 2f; // Scale multiplier for size/power
+        DoSkill1Check();
+    }
+    #endregion
 
-    [SerializeField] private float chargeTime = 0f;
-    private bool isCharging = false;
-    [SerializeField] private int numberOfBullet = 3;
+    //float skill1RateOfCharging = 1 / 60f;
+    //[SerializeField] float startedDegree = 0;
 
-    //protected override void UpdateStateAlive()
-    //{
-    //    base.UpdateStateAlive();
+    //public float maxChargeTime = 10f; // Max time to charge
+    //public float chargeMultiplier = 2f; // Scale multiplier for size/power
 
-    //    DoAttackCheck();
-    //}
+    //[SerializeField] private float chargeTime = 0f;
+    //private bool isCharging = false;
+    //[SerializeField] private int numberOfBullet = 3;
+
+
 
     //protected override void DoAttackCheck()
     //{

@@ -331,6 +331,9 @@ MonoBehaviour:
   characterHolder: {fileID: 1643895448654793544}
   characterRenderer: {fileID: 8876281939662904604}
   animator: {fileID: 7098370259523858895}
+  skill1IconSprite: {fileID: 21300000, guid: 098b3be07d6241848a54f88888120254, type: 3}
+  skill2IconSprite: {fileID: 21300000, guid: 5e59b5bbc65b7a1469d000e81b217279, type: 3}
+  skill3IconSprite: {fileID: 21300000, guid: 955bd0a1c007c9541885dcbf770136b3, type: 3}
   characterName: Doulingo
   speed: 5
   maxSpeed: 5
@@ -346,16 +349,16 @@ MonoBehaviour:
   playerPosition: 0
   playerDirection: 1
   currentState: 0
+  delayCooldown: 0.5
+  delayCooldownCurrent: 0.5
   isAttackAble: 1
   lightAttackCoolDown: 1
-  lightAttackCoolDownCurrent: 1
+  skill1AttackCoolDown: 1
+  skill2AttackCoolDown: 1
+  skill3AttackCoolDown: 1
   skill1ProjectilePrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
   skill2ProjectilePrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
-  startedDegree: 0
-  maxChargeTime: 15
-  chargeMultiplier: 2
-  chargeTime: 0
-  numberOfBullet: 3
+  skill3ProjectilePrefab: {fileID: 0}
 --- !u!1 &6624988684948798921
 GameObject:
   m_ObjectHideFlags: 0

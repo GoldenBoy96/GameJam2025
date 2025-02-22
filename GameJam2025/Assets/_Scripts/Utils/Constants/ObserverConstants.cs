@@ -7,4 +7,6 @@ public static class ObserverConstants
     public static readonly string PLAYER_REVIVE = "PLAYER_REVIVE";
     public static readonly string PLAYER_1_READY = "PLAYER_1_READY";
     public static readonly string PLAYER_2_READY = "PLAYER_2_READY";
+    public static readonly string PLAYER_1_DELAY = "PLAYER_1_DELAY";
+    public static readonly string PLAYER_2_DELAY = "PLAYER_2_DELAY";
 }

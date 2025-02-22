@@ -31,11 +31,17 @@ public class LevelPvPController : BaseLevelController
     [SerializeField] public TextMeshProUGUI WinnerLabel;
     [SerializeField] public TMP_Dropdown Player1Selection;
     [SerializeField] public TMP_Dropdown Player2Selection;
+    [SerializeField] private SkillIconController player1Skill1Icon;
+    [SerializeField] private SkillIconController player1Skill2Icon;
+    [SerializeField] private SkillIconController player1Skill3Icon;
+    [SerializeField] private SkillIconController player2Skill1Icon;
+    [SerializeField] private SkillIconController player2Skill2Icon;
+    [SerializeField] private SkillIconController player2Skill3Icon;
 
     [Header("State")]
     [SerializeField] LevelState currentState = LevelState.Prepare;
 
-    public BaseCharacterController Player1 { get => player1;}
+    public BaseCharacterController Player1 { get => player1; }
     public BaseCharacterController Player2 { get => player2; }
 
     private void Awake()
@@ -56,7 +62,24 @@ public class LevelPvPController : BaseLevelController
     }
     protected override void SetupLevel()
     {
-        Observer.AddObserver(ObserverConstants.PLAYER_DEAD, (x) => { StopGame((PlayerPosition)x[0]); });
+        player1.SetUpUI(new()
+        {
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player1Skill1Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player1Skill2Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player1Skill3Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+        });
+        player2.SetUpUI(new()
+        {
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player2Skill1Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player2Skill2Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+            (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
+                => player2Skill3Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+        });
     }
 
     public void Player1ReadyToggle()
@@ -131,7 +154,7 @@ public class LevelPvPController : BaseLevelController
             player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight(false);
         }
 
-
+        SetupLevel();
         SwitchToState(LevelState.Playing);
     }
 
@@ -191,7 +214,6 @@ public class LevelPvPController : BaseLevelController
                 ExitStatePlaying();
                 break;
             case LevelState.Waiting:
-                Debug.Log("ExitStateWaiting");
                 ExitStateWaiting();
                 break;
             case LevelState.Ending:

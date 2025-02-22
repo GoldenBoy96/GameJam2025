@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BaseCharacterController : MonoBehaviour, ICanBeDamage
@@ -12,6 +14,12 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] GameObject characterHolder;
     [SerializeField] GameObject characterRenderer;
     [SerializeField] protected Animator animator;
+
+
+    [Header("UI")]
+    [SerializeField] Sprite skill1IconSprite;
+    [SerializeField] Sprite skill2IconSprite;
+    [SerializeField] Sprite skill3IconSprite;
 
     //thêm object pooling cho đạn ở đây
     [Header("Character Data")]
@@ -54,17 +62,34 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected int horizontalInput = 0;
     protected int verticalInput = 0;
 
-    //State machine
+    [Header("State machine")]
     [SerializeField] private PlayerState currentState = PlayerState.Alive;
     protected bool canUseSkill = false;
     protected bool canUsePumb = false;
     protected int chokeRecoveryNumber = 5;
     protected Coroutine chokeToDeadCoroutine;
 
-    //constants
-    public bool isAttackAble = true;
-    public float lightAttackCoolDown = 1f;
-    public float lightAttackCoolDownCurrent = 1f;
+    [Header("Character Skill Stats")]
+    [SerializeField] protected float delayCooldown = 0.5f;
+    [SerializeField] protected float delayCooldownCurrent = 0.5f;
+    [SerializeField] protected bool isAttackAble = true;
+
+    protected string lightAttackString = "_LightAttack";
+    [SerializeField] protected float lightAttackCoolDown = 1f;
+    protected float lightAttackCoolDownCurrent = 1f;
+
+    protected string skill1AttackString = "_Skill1Attack";
+    [SerializeField] protected float skill1AttackCoolDown = 1f;
+    protected float skill1AttackCoolDownCurrent = 1f;
+
+
+    protected string skill2AttackString = "_Skill2Attack";
+    [SerializeField] protected float skill2AttackCoolDown = 1f;
+    protected float skill2AttackCoolDownCurrent = 1f;
+
+    protected string skill3AttackString = "_Skill3Attack";
+    [SerializeField] protected float skill3AttackCoolDown = 1f;
+    protected float skill3AttackCoolDownCurrent = 1f;
 
     protected Rigidbody2D rb;
 
@@ -75,6 +100,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     {
         SetUpInput();
         isAttackAble = true;
+        SetUpSkill();
     }
 
     void Start()
@@ -84,6 +110,18 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         SetupFlip();
         rb.gravityScale = bubbleGravity;
         SwitchToState(PlayerState.Alive);
+    }
+
+    protected virtual void SetUpSkill()
+    {
+        lightAttackString = playerPosition + lightAttackString;
+        skill1AttackString = playerPosition + skill1AttackString;
+        skill2AttackString = playerPosition + skill2AttackString;
+        skill3AttackString = playerPosition + skill3AttackString;
+        lightAttackCoolDownCurrent = lightAttackCoolDown;
+        skill1AttackCoolDownCurrent = skill1AttackCoolDown;
+        skill2AttackCoolDownCurrent = skill2AttackCoolDown;
+        skill3AttackCoolDownCurrent = skill3AttackCoolDown;
     }
 
     void Update()
@@ -204,7 +242,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     #region State Machine
     public void SwitchToState(PlayerState incomingState)
     {
-        Debug.Log(gameObject.name + "Enter State " + incomingState);
+        //Debug.Log(gameObject.name + "Enter State " + incomingState);
         switch (currentState)
         {
             case PlayerState.Alive:
@@ -439,10 +477,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     private IEnumerator WaitChokeToDead()
     {
-        Debug.Log("Start choking");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(chokeToDeadTime);
 
-        Debug.Log("Stop choking");
         SwitchToState(PlayerState.Dead);
     }
 
@@ -533,8 +569,17 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     public IEnumerator TemporaryDisableAttack()
     {
+        switch (playerPosition)
+        {
+            case PlayerPosition.Left:
+                Observer.Notify(ObserverConstants.PLAYER_1_DELAY);
+                break;
+            case PlayerPosition.Right:
+                Observer.Notify(ObserverConstants.PLAYER_2_DELAY);
+                break;
+        }
         isAttackAble = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(delayCooldown);
         isAttackAble = true;
     }
     public virtual void DoLightAttack()
@@ -549,6 +594,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         GameObject bullet = Shooting.ShootProjectile(lightAttackPrefab, GetShootingPosition(), GetShootingDirection());
         //add effect of skill here
         AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
+        Observer.Notify(lightAttackString, lightAttackCoolDownCurrent / lightAttackCoolDown);
     }
     public bool IsEnoughStamina(float amount)
     {
@@ -625,6 +671,17 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         playerPosition = PlayerPosition.Right;
         Flip(PlayerDirection.Right);
         SetUpInput();
+    }
+
+    public virtual void SetUpUI(List<Action<Sprite, string, float, float, PlayerPosition>> setUpUIActions)
+    {
+        //if (setUpUIActions.Count != 4) return;
+        //setUpUIActions[0].Invoke(null, lightAttackString, lightAttackCoolDown, delayCooldown);
+        setUpUIActions[0].Invoke(skill1IconSprite, skill1AttackString, skill1AttackCoolDown, delayCooldown, playerPosition);
+        setUpUIActions[1].Invoke(skill2IconSprite, skill2AttackString, skill2AttackCoolDown, delayCooldown, playerPosition);
+        setUpUIActions[2].Invoke(skill3IconSprite, skill3AttackString, skill3AttackCoolDown, delayCooldown, playerPosition);
+
+        Observer.Notify(skill1AttackString, skill1AttackCoolDownCurrent / skill1AttackCoolDown);
     }
 }
 
