@@ -353,12 +353,20 @@ MonoBehaviour:
   delayCooldownCurrent: 0.5
   isAttackAble: 1
   lightAttackCoolDown: 1
-  skill1AttackCoolDown: 1
-  skill2AttackCoolDown: 1
-  skill3AttackCoolDown: 1
+  skill1AttackCoolDown: 3
+  isAbleToUseSkill1: 0
+  skill2AttackCoolDown: 7
+  isAbleToUseSkill2: 0
+  skill3AttackCoolDown: 10
+  isAbleToUseSkill3: 0
   skill1ProjectilePrefab: {fileID: 3720938107459852028, guid: 8535f8beffdf2fa4a907f5494fe3202c, type: 3}
   skill2ProjectilePrefab: {fileID: 330546553746145407, guid: eff52e1f7f2e0b443a146c5517d094fc, type: 3}
   skill3ProjectilePrefab: {fileID: 0}
+  skill1ChargeTime1From0: 1
+  skill1ChargeTime2From0: 2
+  skill1ChargeTime3From0: 3
+  staminaConsumePerSecond: 5
+  currentSkill1ChargeTime: 0
 --- !u!1 &6624988684948798921
 GameObject:
   m_ObjectHideFlags: 0

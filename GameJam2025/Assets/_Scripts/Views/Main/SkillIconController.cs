@@ -28,8 +28,8 @@ public class SkillIconController : MonoBehaviour
 
     private void ApplyCooldown()
     {
-        skillCooldown.fillAmount -= (skillCooldownTime * 100f / 60f) * Time.deltaTime;
-        delayCooldown.fillAmount -= (delayCooldownTime * 100f / 60f) * Time.deltaTime;
+        skillCooldown.fillAmount -= (60f / (skillCooldownTime * 100f)) * Time.deltaTime;
+        delayCooldown.fillAmount -= (60f / (delayCooldownTime * 100f)) * Time.deltaTime;
     }
 
 
@@ -37,14 +37,14 @@ public class SkillIconController : MonoBehaviour
     {
         if (isSetUp) { return; }
         this.eventTrigger = eventTrigger;
-        //Debug.Log(this.eventTrigger);
         skillIconBackground.sprite = iconSprite;
         this.skillCooldownTime = skillCooldownTime;
         this.delayCooldownTime = delayCooldownTime;
         Observer.AddObserver(eventTrigger, (x) =>
         {
-            SetSkillCooldownValue((float)x[0]);
-            SetDelayCooldownValue((float)x[0]);
+            Debug.Log(eventTrigger);
+            SetSkillCooldownValue(1);
+            SetDelayCooldownValue(1);
         });
 
         this.playerPosition = playerPosition;
@@ -63,6 +63,7 @@ public class SkillIconController : MonoBehaviour
                 });
                 break;
         }
+        Observer.Notify(eventTrigger);
     }
 
     public void SetSkillCooldownValue(float percent)

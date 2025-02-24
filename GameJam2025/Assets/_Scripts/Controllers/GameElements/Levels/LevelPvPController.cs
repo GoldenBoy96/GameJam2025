@@ -60,12 +60,18 @@ public class LevelPvPController : BaseLevelController
             SwitchToState(LevelState.Playing);
         });
     }
+
+    private bool isSetUp = false;
     protected override void SetupLevel()
     {
+        if (isSetUp) { return; }
+        isSetUp = true;
         player1.SetUpUI(new()
         {
             (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
-                => player1Skill1Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
+                => {
+                    player1Skill1Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition); 
+                },
             (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
                 => player1Skill2Icon.SetUp(iconSprite, eventTrigger, skillCooldownTime, delayCooldownTime, playerPosition),
             (Sprite iconSprite, string eventTrigger, float skillCooldownTime, float delayCooldownTime, PlayerPosition playerPosition)
@@ -154,7 +160,6 @@ public class LevelPvPController : BaseLevelController
             player2Object.GetComponent<BaseCharacterController>().SetSpawnPositionRight(false);
         }
 
-        SetupLevel();
         SwitchToState(LevelState.Playing);
     }
 
@@ -259,6 +264,7 @@ public class LevelPvPController : BaseLevelController
         player1.SwitchToState(PlayerState.Alive);
         player2.SwitchToState(PlayerState.Alive);
         StartCoroutine(MakePlayerFaceToFace());
+        SetupLevel();
     }
 
     protected virtual void UpdateStatePlaying()

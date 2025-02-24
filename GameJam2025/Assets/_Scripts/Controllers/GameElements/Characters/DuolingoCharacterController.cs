@@ -1,27 +1,107 @@
-﻿using System.Collections;
+﻿using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DuolingoCharacterController : BaseCharacterController
 {
-
-    //thêm object pooling ở đây
-
+    [Header("Prefab")]
     [SerializeField] GameObject skill1ProjectilePrefab;
     [SerializeField] GameObject skill2ProjectilePrefab;
     [SerializeField] GameObject skill3ProjectilePrefab;
 
+
+    [Header("Skill 1 stats")]
+    [SerializeField] float skill1ChargeTime1From0;
+    [SerializeField] float skill1ChargeTime2From0;
+    [SerializeField] float skill1ChargeTime3From0;
+    [SerializeField] float staminaConsumePerSecond;
+
+    [SerializeField] float currentSkill1ChargeTime = 0;
+    bool isEnoughStamina = true;
+
+
+    protected override void SetUpSkill()
+    {
+        base.SetUpSkill();
+        var skill1SortTmp = new List<float>() { skill1ChargeTime1From0, skill1ChargeTime2From0, skill1ChargeTime3From0 };
+        skill1ChargeTime1From0 = skill1SortTmp[0];
+        skill1ChargeTime2From0 = skill1SortTmp[1];
+        skill1ChargeTime3From0 = skill1SortTmp[2];
+
+
+        StartCoroutine(StartCooldownSkill1());
+        Observer.Notify(skill1AttackString);
+
+    }
     protected void DoSkill1Check()
     {
+        if (!isAbleToUseSkill1) return;
         if (Input.GetKey(keySkill1))
         {
             isAttackAble = false;
-            //SpawnProjectile<string>(null, skill1ProjectilePrefab);
+            currentSkill1ChargeTime += Time.deltaTime;
+
+            //Charge animation
+            if (currentSkill1ChargeTime < skill1ChargeTime1From0)
+            {
+            }
+            else if (currentSkill1ChargeTime >= skill1ChargeTime1From0 && currentSkill1ChargeTime <= skill1ChargeTime2From0)
+            {
+            }
+            else if (currentSkill1ChargeTime >= skill1ChargeTime2From0 && currentSkill1ChargeTime <= skill1ChargeTime3From0)
+            {
+            }
+            else if (currentSkill1ChargeTime >= skill1ChargeTime3From0)
+            {
+            }
+
+            isEnoughStamina = UseStamina(staminaConsumePerSecond * Time.deltaTime);
         }
-        else if (Input.GetKeyUp(keySkill1)) { 
+        else if (Input.GetKeyUp(keySkill1) || !isEnoughStamina)
+        {
             isAttackAble = true;
+
             //Code bắn ở đây
+            if (currentSkill1ChargeTime >= skill1ChargeTime1From0)
+            {
+                GameObject bullet = SpawnProjectile(skill1ProjectilePrefab, skill1ProjectilePrefab);
+                DuolingoSkill1ProrjectileController projectileScript = bullet.GetComponent<DuolingoSkill1ProrjectileController>();
+                if (currentSkill1ChargeTime >= skill1ChargeTime1From0 && currentSkill1ChargeTime <= skill1ChargeTime2From0)
+                {
+                    projectileScript.SetLevel(0);
+                }
+                else if (currentSkill1ChargeTime >= skill1ChargeTime2From0 && currentSkill1ChargeTime <= skill1ChargeTime3From0)
+                {
+                    projectileScript.SetLevel(1);
+                }
+                else if (currentSkill1ChargeTime >= skill1ChargeTime3From0)
+                {
+                    projectileScript.SetLevel(2);
+                }
+                StartCoroutine(StartCooldownSkill1());
+            }
+            currentSkill1ChargeTime = 0;
         }
+
     }
+
+    public override void DoLightAttack()
+    {
+        base.DoLightAttack();
+        AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_RIGHT);
+    }
+
+    protected IEnumerator StartCooldownSkill1()
+    {
+        Debug.Log("StartCooldownSkill1: " + skill1AttackString);
+        isAbleToUseSkill1 = false;
+        Observer.Notify(skill1AttackString);
+        yield return new WaitForSeconds(skill1AttackCoolDown);
+        isAbleToUseSkill1 = true;
+        Debug.Log("Skill 1 ready!");
+    }
+
     #region State Machine
     protected override void UpdateStateAlive()
     {
@@ -84,11 +164,7 @@ public class DuolingoCharacterController : BaseCharacterController
     //    StartCoroutine(Skill1Projecttile());
     //}
 
-    //public override void DoLightAttack()
-    //{
-    //    base.DoLightAttack();
-    //    AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_RIGHT);
-    //}
+
 
     //public IEnumerator Skill1Projecttile()
     //{

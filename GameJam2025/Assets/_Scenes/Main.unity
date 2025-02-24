@@ -1712,7 +1712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 23.8, y: 0}
+  m_AnchoredPosition: {x: 23.800049, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &394487569
@@ -2086,7 +2086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder (3)
+      value: SkillHolder_2_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2672,7 +2672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder (1)
+      value: SkillHolder_1_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4892,7 +4892,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 291.48993, y: -56.999985}
+  m_AnchoredPosition: {x: -53, y: 85}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1260021183
@@ -5438,7 +5438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder (2)
+      value: SkillHolder_1_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5579,7 +5579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 23.8, y: 0}
+  m_AnchoredPosition: {x: 57, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &1469217063 stripped
@@ -6458,7 +6458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 322, y: -56.999985}
+  m_AnchoredPosition: {x: -22.489807, y: 84.99997}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1540156250
@@ -6916,7 +6916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder (5)
+      value: SkillHolder_2_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8351,7 +8351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder (4)
+      value: SkillHolder_2_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8614,7 +8614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3048548286693834920, guid: 3121fec47a9030245adb83ee6b30dab8, type: 3}
       propertyPath: m_Name
-      value: SkillHolder
+      value: SkillHolder_1_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

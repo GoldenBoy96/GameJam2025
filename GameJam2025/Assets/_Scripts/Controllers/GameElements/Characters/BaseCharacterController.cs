@@ -81,26 +81,28 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected string skill1AttackString = "_Skill1Attack";
     [SerializeField] protected float skill1AttackCoolDown = 1f;
     protected float skill1AttackCoolDownCurrent = 1f;
+    [SerializeField] protected bool isAbleToUseSkill1 = false;
 
 
     protected string skill2AttackString = "_Skill2Attack";
     [SerializeField] protected float skill2AttackCoolDown = 1f;
     protected float skill2AttackCoolDownCurrent = 1f;
+    [SerializeField] protected bool isAbleToUseSkill2 = false;
 
     protected string skill3AttackString = "_Skill3Attack";
     [SerializeField] protected float skill3AttackCoolDown = 1f;
     protected float skill3AttackCoolDownCurrent = 1f;
+    [SerializeField] protected bool isAbleToUseSkill3 = false;
 
     protected Rigidbody2D rb;
 
     public string CharacterName { get => characterName; }
     public PlayerState CurrentState { get => currentState; }
 
-    private void Awake()
+    private bool isSetUp = false;
+
+    void Awake()
     {
-        SetUpInput();
-        isAttackAble = true;
-        SetUpSkill();
     }
 
     void Start()
@@ -112,16 +114,31 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         SwitchToState(PlayerState.Alive);
     }
 
+    protected void SetUpCharacter()
+    {
+        if (isSetUp) { return; }
+        isSetUp = true;
+        SetUpInput();
+        isAttackAble = true;
+        SetUpSkill();
+
+    }
+
     protected virtual void SetUpSkill()
     {
         lightAttackString = playerPosition + lightAttackString;
         skill1AttackString = playerPosition + skill1AttackString;
         skill2AttackString = playerPosition + skill2AttackString;
         skill3AttackString = playerPosition + skill3AttackString;
+
         lightAttackCoolDownCurrent = lightAttackCoolDown;
         skill1AttackCoolDownCurrent = skill1AttackCoolDown;
         skill2AttackCoolDownCurrent = skill2AttackCoolDown;
         skill3AttackCoolDownCurrent = skill3AttackCoolDown;
+
+        isAbleToUseSkill1 = false;
+        isAbleToUseSkill2 = false;
+        isAbleToUseSkill3 = false;
     }
 
     void Update()
@@ -281,6 +298,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     #region State Alive
     protected virtual void EnterStateAlive()
     {
+        SetUpCharacter();
+
         canUseSkill = true;
         canUsePumb = false;
         if (chokeToDeadCoroutine != null) StopCoroutine(chokeToDeadCoroutine);
@@ -375,17 +394,19 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             }
             catch { }
         }
-        else
-        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Swim)
+        else if (animator.GetCurrentAnimatorClipInfo(0)[0].clip != null)
         {
-            animator.Play(AnimationConstants.Swim);
-            if (horizontalInput > 0)
+            if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != AnimationConstants.Swim)
             {
-                characterRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -30));
-            }
-            else
-            {
-                characterRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 30));
+                animator.Play(AnimationConstants.Swim);
+                if (horizontalInput > 0)
+                {
+                    characterRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -30));
+                }
+                else
+                {
+                    characterRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 30));
+                }
             }
         }
 
@@ -393,7 +414,6 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     protected virtual void ExitStateAlive()
     {
-        StopAllCoroutines();
     }
     #endregion
     #region State Waiting
@@ -408,7 +428,6 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     protected virtual void ExitStateWaiting()
     {
-        StopAllCoroutines();
     }
     #endregion
     #region State Choke
@@ -449,12 +468,13 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     protected virtual void ExitStateChoke()
     {
-        StopAllCoroutines();
     }
     #endregion
     #region State Dead
     protected virtual void EnterStateDead()
     {
+        StopAllCoroutines();
+
         canUseSkill = false;
         canUsePumb = false;
         rb.gravityScale = noBubbleGravity;
@@ -471,7 +491,6 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     protected virtual void ExitStateDead()
     {
-        StopAllCoroutines();
     }
     #endregion
 
@@ -523,7 +542,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         }
 
 
-        Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles);
+        //Debug.Log(skillOutput.transform.eulerAngles + " | " + result.transform.eulerAngles); 
         animator.Play(AnimationConstants.Attack);
         return result;
     }
@@ -658,7 +677,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     public void GetDamage()
     {
-        Debug.Log("HIT");
+        //Debug.Log("HIT");
         SwitchToState(PlayerState.Choke);
     }
 
@@ -680,8 +699,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         setUpUIActions[0].Invoke(skill1IconSprite, skill1AttackString, skill1AttackCoolDown, delayCooldown, playerPosition);
         setUpUIActions[1].Invoke(skill2IconSprite, skill2AttackString, skill2AttackCoolDown, delayCooldown, playerPosition);
         setUpUIActions[2].Invoke(skill3IconSprite, skill3AttackString, skill3AttackCoolDown, delayCooldown, playerPosition);
-
-        Observer.Notify(skill1AttackString, skill1AttackCoolDownCurrent / skill1AttackCoolDown);
+        //Observer.Notify(skill1AttackString, 1);
     }
 }
 
