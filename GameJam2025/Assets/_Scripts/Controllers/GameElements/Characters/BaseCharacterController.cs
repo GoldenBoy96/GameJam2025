@@ -76,21 +76,25 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 
     protected string lightAttackString = "_LightAttack";
     [SerializeField] protected float lightAttackCoolDown = 1f;
+    [SerializeField] protected float lightAttackStaminaConsume = 1f;
     protected float lightAttackCoolDownCurrent = 1f;
 
     protected string skill1AttackString = "_Skill1Attack";
     [SerializeField] protected float skill1AttackCoolDown = 1f;
+    [SerializeField] protected float skill1StaminaConsume = 1f;
     protected float skill1AttackCoolDownCurrent = 1f;
     [SerializeField] protected bool isAbleToUseSkill1 = false;
 
 
     protected string skill2AttackString = "_Skill2Attack";
     [SerializeField] protected float skill2AttackCoolDown = 1f;
+    [SerializeField] protected float skill2StaminaConsume = 1f;
     protected float skill2AttackCoolDownCurrent = 1f;
     [SerializeField] protected bool isAbleToUseSkill2 = false;
 
     protected string skill3AttackString = "_Skill3Attack";
     [SerializeField] protected float skill3AttackCoolDown = 1f;
+    [SerializeField] protected float skill3StaminaConsume = 1f;
     protected float skill3AttackCoolDownCurrent = 1f;
     [SerializeField] protected bool isAbleToUseSkill3 = false;
 

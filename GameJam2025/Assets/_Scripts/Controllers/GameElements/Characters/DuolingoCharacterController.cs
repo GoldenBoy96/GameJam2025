@@ -15,7 +15,7 @@ public class DuolingoCharacterController : BaseCharacterController
     [SerializeField] float skill1ChargeTime1From0;
     [SerializeField] float skill1ChargeTime2From0;
     [SerializeField] float skill1ChargeTime3From0;
-    [SerializeField] float staminaConsumePerSecond;
+    [SerializeField] float skill1StaminaConsumePerSecond;
 
     [SerializeField] float currentSkill1ChargeTime = 0;
     bool isEnoughStamina = true;
@@ -31,9 +31,16 @@ public class DuolingoCharacterController : BaseCharacterController
 
 
         StartCoroutine(StartCooldownSkill1());
+        StartCoroutine(StartCooldownSkill2());
         Observer.Notify(skill1AttackString);
 
     }
+    public override void DoLightAttack()
+    {
+        base.DoLightAttack();
+        AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_RIGHT);
+    }
+
     protected void DoSkill1Check()
     {
         if (!isAbleToUseSkill1) return;
@@ -56,7 +63,7 @@ public class DuolingoCharacterController : BaseCharacterController
             {
             }
 
-            isEnoughStamina = UseStamina(staminaConsumePerSecond * Time.deltaTime);
+            isEnoughStamina = UseStamina(skill1StaminaConsumePerSecond * Time.deltaTime);
         }
         else if (Input.GetKeyUp(keySkill1) || !isEnoughStamina)
         {
@@ -85,20 +92,39 @@ public class DuolingoCharacterController : BaseCharacterController
         }
 
     }
-
-    public override void DoLightAttack()
+    protected void DoSkill2Check()
     {
-        base.DoLightAttack();
-        AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_RIGHT);
+        if (!isAbleToUseSkill2) return;
+
+        if (Input.GetKeyDown(keySkill2))
+        {
+            if (!UseStamina(skill2StaminaConsume)) return;
+            //ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
+            GameObject bullet = Shooting.ShootProjectile(skill2ProjectilePrefab, GetShootingPosition(), GetShootingDirection());
+            bullet.transform.parent = transform;
+            bullet.transform.localPosition = Vector3.zero;
+            //add effect of skill here
+            AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
+            Observer.Notify(skill2AttackString, 1f);
+            StartCoroutine(StartCooldownSkill2());
+        }
     }
 
     protected IEnumerator StartCooldownSkill1()
     {
-        Debug.Log("StartCooldownSkill1: " + skill1AttackString);
         isAbleToUseSkill1 = false;
         Observer.Notify(skill1AttackString);
         yield return new WaitForSeconds(skill1AttackCoolDown);
         isAbleToUseSkill1 = true;
+        Debug.Log("Skill 1 ready!");
+    }
+
+    protected IEnumerator StartCooldownSkill2()
+    {
+        isAbleToUseSkill2 = false;
+        Observer.Notify(skill2AttackString);
+        yield return new WaitForSeconds(skill2AttackCoolDown);
+        isAbleToUseSkill2 = true;
         Debug.Log("Skill 1 ready!");
     }
 
@@ -107,7 +133,8 @@ public class DuolingoCharacterController : BaseCharacterController
     {
         base.UpdateStateAlive();
 
-        DoSkill1Check();
+        DoSkill1Check(); 
+        DoSkill2Check();
     }
     #endregion
 

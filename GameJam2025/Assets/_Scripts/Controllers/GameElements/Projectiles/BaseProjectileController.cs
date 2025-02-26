@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseProjectileController : MonoBehaviour
+public class BaseProjectileController : MonoBehaviour, ICanBeDamage
 {
     [SerializeField] BaseCharacterController owner;
 
@@ -12,6 +12,17 @@ public class BaseProjectileController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log("OnTriggerEnter2D " + collision.gameObject.name);
+        Interact(collision);
+    }
+
+    public void TriggerFromChildren(Collider2D collision)
+    {
+        //Debug.Log("OnTriggerEnter2D " + collision.gameObject.name);
+        Interact(collision);
+    }
+
+    protected virtual void Interact(Collider2D collision)
+    {
         if (collision.gameObject.TryGetComponent<ICanBeDamage>(out var target))
         {
             BaseCharacterController targetController = collision.gameObject.GetComponent<BaseCharacterController>();
@@ -24,22 +35,12 @@ public class BaseProjectileController : MonoBehaviour
         }
     }
 
-    public void TriggerFromChildren(Collider2D collision)
+    public virtual void ReturnProjectileToPool()
     {
-        //Debug.Log("OnTriggerEnter2D " + collision.gameObject.name);
-        if (collision.gameObject.TryGetComponent<ICanBeDamage>(out var target))
-        {
-            BaseCharacterController targetController = collision.gameObject.GetComponent<BaseCharacterController>();
-            if (owner != targetController)
-            {
-                target.GetDamage();
-
-                Destroy(gameObject);
-            }
-        }
+        PoolingHelper.ReturnObjectToPool(gameObject);
     }
 
-    public virtual void ReturnProjectileToPool()
+    public void GetDamage()
     {
         PoolingHelper.ReturnObjectToPool(gameObject);
     }
