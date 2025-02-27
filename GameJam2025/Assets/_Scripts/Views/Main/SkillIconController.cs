@@ -42,7 +42,7 @@ public class SkillIconController : MonoBehaviour
         this.delayCooldownTime = delayCooldownTime;
         Observer.AddObserver(eventTrigger, (x) =>
         {
-            Debug.Log(eventTrigger);
+            //Debug.Log(eventTrigger);
             SetSkillCooldownValue(1);
             SetDelayCooldownValue(1);
         });

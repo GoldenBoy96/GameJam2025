@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public class BaseCharacterController : MonoBehaviour, ICanBeDamage
 {
@@ -38,8 +39,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     [SerializeField] float noBubbleGravity = 0.5f;
 
 
-    [SerializeField] GameObject lightAttackPrefab;
-    [SerializeField] GameObject heavyAttackPrefab;
+    [SerializeField] protected GameObject lightAttackPrefab;
 
 
     [Header("Character Position and Direction")]
@@ -54,9 +54,9 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     protected KeyCode keyClockwise;
     protected KeyCode keyCounterClockwise;
     protected KeyCode keyLightAttack;
-    protected KeyCode keyHeavyAttack;
     protected KeyCode keySkill1;
     protected KeyCode keySkill2;
+    protected KeyCode keySkill3;
 
     //Moving input manager
     protected int horizontalInput = 0;
@@ -104,6 +104,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     public PlayerState CurrentState { get => currentState; }
 
     private bool isSetUp = false;
+
 
     void Awake()
     {
@@ -241,9 +242,9 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 keyClockwise = InputConstants.PLAYER_1_CLOCKWISE;
                 keyCounterClockwise = InputConstants.PLAYER_1_COUNTERCLOCKWISE;
                 keyLightAttack = InputConstants.PLAYER_1_LIGHT_ATTACK;
-                keyHeavyAttack = InputConstants.PLAYER_1_HEAVY_ATTACK;
                 keySkill1 = InputConstants.PLAYER_1_SKILL_1;
                 keySkill2 = InputConstants.PLAYER_1_SKILL_2;
+                keySkill3 = InputConstants.PLAYER_1_SKILL_3;
                 break;
             case PlayerPosition.Right:
                 keyUp = InputConstants.PLAYER_2_UP;
@@ -253,9 +254,9 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
                 keyClockwise = InputConstants.PLAYER_2_CLOCKWISE;
                 keyCounterClockwise = InputConstants.PLAYER_2_COUNTERCLOCKWISE;
                 keyLightAttack = InputConstants.PLAYER_2_LIGHT_ATTACK;
-                keyHeavyAttack = InputConstants.PLAYER_2_HEAVY_ATTACK;
                 keySkill1 = InputConstants.PLAYER_2_SKILL_1;
                 keySkill2 = InputConstants.PLAYER_2_SKILL_2;
+                keySkill3 = InputConstants.PLAYER_2_SKILL_3;
                 break;
         }
     }
@@ -472,6 +473,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
     }
     protected virtual void ExitStateChoke()
     {
+        StopCoroutine(chokeToDeadCoroutine);
     }
     #endregion
     #region State Dead
@@ -614,7 +616,7 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
             return;
         }
         //ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
-        GameObject bullet = Shooting.ShootProjectile(lightAttackPrefab, GetShootingPosition(), GetShootingDirection());
+        BaseProjectileController bullet = Shooting.ShootProjectile(lightAttackPrefab, GetShootingPosition(), GetShootingDirection(), this);
         //add effect of skill here
         AudioManager.Instance.PlayAudio(AudioConstants.BUBBLE_BULLET);
         Observer.Notify(lightAttackString, lightAttackCoolDownCurrent / lightAttackCoolDown);
@@ -705,6 +707,8 @@ public class BaseCharacterController : MonoBehaviour, ICanBeDamage
         setUpUIActions[2].Invoke(skill3IconSprite, skill3AttackString, skill3AttackCoolDown, delayCooldown, playerPosition);
         //Observer.Notify(skill1AttackString, 1);
     }
+
+  
 }
 
 

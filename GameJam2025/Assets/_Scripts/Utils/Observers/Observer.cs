@@ -39,16 +39,16 @@ public class Observer : MonoBehaviour
 
         foreach (var listener in Listeners[name].ToList())
         {
-            listener.Invoke(data);
-            //try
-            //{
-            //    listener.Invoke(data);
-            //}
-            //catch (Exception ex)
-            //{
-            //    RemoveObserver(name, listener);
-            //    //Debug.LogError("Error on invoke listener: " + ex);
-            //}
+            //listener.Invoke(data);
+            try
+            {
+                listener.Invoke(data);
+            }
+            catch (Exception ex)
+            {
+                RemoveObserver(name, listener);
+                //Debug.LogError("Error on invoke listener: " + ex);
+            }
         }
     }
 

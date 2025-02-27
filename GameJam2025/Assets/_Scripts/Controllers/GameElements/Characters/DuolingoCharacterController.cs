@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DuolingoCharacterController : BaseCharacterController
@@ -16,9 +17,16 @@ public class DuolingoCharacterController : BaseCharacterController
     [SerializeField] float skill1ChargeTime2From0;
     [SerializeField] float skill1ChargeTime3From0;
     [SerializeField] float skill1StaminaConsumePerSecond;
-
     [SerializeField] float currentSkill1ChargeTime = 0;
-    bool isEnoughStamina = true;
+
+
+    [Header("Skill 3 stats")]
+    [SerializeField] float skill3Delay;
+    [SerializeField] float skill3Spread;
+    [SerializeField] GameObject skill3Effect;
+    protected bool isDoingSkill3 = false;
+
+    protected bool isEnoughStamina = true;
 
 
     protected override void SetUpSkill()
@@ -32,7 +40,9 @@ public class DuolingoCharacterController : BaseCharacterController
 
         StartCoroutine(StartCooldownSkill1());
         StartCoroutine(StartCooldownSkill2());
-        Observer.Notify(skill1AttackString);
+        StartCoroutine(StartCooldownSkill3());
+
+        skill3Effect.SetActive(false);
 
     }
     public override void DoLightAttack()
@@ -100,7 +110,7 @@ public class DuolingoCharacterController : BaseCharacterController
         {
             if (!UseStamina(skill2StaminaConsume)) return;
             //ProjectileLightAttack projectileLightAttack = new ProjectileLightAttack();
-            GameObject bullet = Shooting.ShootProjectile(skill2ProjectilePrefab, GetShootingPosition(), GetShootingDirection());
+            DuolingoSkill2ProjectileController bullet = (DuolingoSkill2ProjectileController)Shooting.ShootProjectile(skill2ProjectilePrefab, GetShootingPosition(), GetShootingDirection(), this);
             bullet.transform.parent = transform;
             bullet.transform.localPosition = Vector3.zero;
             //add effect of skill here
@@ -110,13 +120,56 @@ public class DuolingoCharacterController : BaseCharacterController
         }
     }
 
+    protected void DoSkill3Check()
+    {
+        if (!isAbleToUseSkill3) return;
+
+        if (Input.GetKeyDown(keySkill3))
+        {
+            if (isDoingSkill3)
+            {
+                //Stop skill 3
+                isDoingSkill3 = false;                
+                StartCoroutine(StartCooldownSkill3());
+                skill3Effect.SetActive(false);
+            }
+            else
+            {
+                isDoingSkill3 = true;
+                StartCoroutine(DoSkill3());
+                skill3Effect.SetActive(true);
+            }
+        }
+    }
+
+    protected IEnumerator DoSkill3()
+    {
+        if (isDoingSkill3)
+        {
+            if (!UseStamina(skill3StaminaConsume))
+            {
+                isDoingSkill3 = false;
+                skill3Effect.SetActive(false);
+                StartCoroutine(StartCooldownSkill3());
+            };
+            DuolingoSkill3ProjectileController bullet = (DuolingoSkill3ProjectileController)Shooting.ShootProjectile(skill3ProjectilePrefab, GetShootingPosition(), GetShootingDirection(), this);
+            float random = Random.Range(-skill3Spread, skill3Spread);
+            //Debug.Log(random);
+            bullet.Dir = Quaternion.Euler(0, 0, random) * bullet.Dir;
+
+            AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_WRONG);
+            yield return new WaitForSeconds(skill3Delay);
+            StartCoroutine(DoSkill3());
+        }
+    }
+
     protected IEnumerator StartCooldownSkill1()
     {
         isAbleToUseSkill1 = false;
         Observer.Notify(skill1AttackString);
         yield return new WaitForSeconds(skill1AttackCoolDown);
         isAbleToUseSkill1 = true;
-        Debug.Log("Skill 1 ready!");
+        //Debug.Log("Skill 1 ready!");
     }
 
     protected IEnumerator StartCooldownSkill2()
@@ -125,72 +178,41 @@ public class DuolingoCharacterController : BaseCharacterController
         Observer.Notify(skill2AttackString);
         yield return new WaitForSeconds(skill2AttackCoolDown);
         isAbleToUseSkill2 = true;
-        Debug.Log("Skill 1 ready!");
+        //Debug.Log("Skill 2 ready!");
+    }
+    protected IEnumerator StartCooldownSkill3()
+    {
+        isAbleToUseSkill3 = false;
+        Observer.Notify(skill3AttackString);
+        yield return new WaitForSeconds(skill3AttackCoolDown);
+        isAbleToUseSkill3 = true;
+        //Debug.Log("Skill 3 ready!");
     }
 
+
     #region State Machine
+    bool isDoingSkill3Tmp;
+    protected override void EnterStateWaiting()
+    {
+        base.EnterStateWaiting();
+        isDoingSkill3Tmp = isDoingSkill3;
+        isDoingSkill3 = false;
+    }
+    protected override void ExitStateWaiting()
+    {
+        base.ExitStateWaiting();
+        isDoingSkill3 = isDoingSkill3Tmp;
+    }
+
     protected override void UpdateStateAlive()
     {
         base.UpdateStateAlive();
 
-        DoSkill1Check(); 
+        DoSkill1Check();
         DoSkill2Check();
+        DoSkill3Check();
     }
     #endregion
-
-    //float skill1RateOfCharging = 1 / 60f;
-    //[SerializeField] float startedDegree = 0;
-
-    //public float maxChargeTime = 10f; // Max time to charge
-    //public float chargeMultiplier = 2f; // Scale multiplier for size/power
-
-    //[SerializeField] private float chargeTime = 0f;
-    //private bool isCharging = false;
-    //[SerializeField] private int numberOfBullet = 3;
-
-
-
-    //protected override void DoAttackCheck()
-    //{
-    //    base.DoAttackCheck();
-
-    //    if (Input.GetKeyDown(keySkill1))
-    //    {
-    //        isCharging = true;
-    //        chargeTime = 0f;
-    //    }
-
-    //    // Keep charging while the button is held
-    //    if (isCharging && Input.GetKey(keySkill1))
-    //    {
-    //        if (!UseStamina(1 / 12f))
-    //        {
-    //            StartSkill1(chargeTime);
-    //            isCharging = false;
-    //            return;
-    //        }
-    //        chargeTime += skill1RateOfCharging;
-    //        chargeTime = Mathf.Min(chargeTime, maxChargeTime); // Clamp to max
-    //        animator.Play(AnimationConstants.Charge);
-
-    //    }
-
-    //    // Release the projectile when the button is released
-    //    if (isCharging && Input.GetKeyUp(keySkill1))
-    //    {
-    //        //FireProjectile(chargeTime);
-    //        StartSkill1(chargeTime);
-    //        isCharging = false;
-    //    }
-    //    //Debug.Log(isCharging);
-    //    //Debug.Log(chargeTime);
-    //}
-
-    //public void StartSkill2()
-    //{
-    //    StartCoroutine(Skill1Projecttile());
-    //}
-
 
 
     //public IEnumerator Skill1Projecttile()
@@ -210,46 +232,5 @@ public class DuolingoCharacterController : BaseCharacterController
     //    yield return new WaitForSeconds(0.2f);
     //}
 
-    //public void StartSkill1(float chargetime)
-    //{
-
-    //    //TODO: add animation, delay for animation to finish
-    //    //TODO: make it so that the setting of projectile's length and content is set in the projectile's constructor/class
-    //    if (chargeTime < 2) return;
-
-    //    GameObject bullet = SpawnProjectile(skill1ProjectilePrefab, skill1ProjectilePrefab);
-    //    DuolingoSkill1ProrjectileController projectileScript = bullet.GetComponent<DuolingoSkill1ProrjectileController>();
-
-    //    if (chargetime < 5)
-    //    {
-    //        projectileScript.SetLevel(0);
-    //    }
-    //    else if (chargetime < 10)
-    //    {
-    //        projectileScript.SetLevel(1);
-    //    }
-    //    else
-    //    {
-    //        projectileScript.SetLevel(2);
-    //    }
-
-
-    //    AudioManager.Instance.PlayAudio(AudioConstants.DUOLINGO_WRONG);
-    //    //float chargeRatio = chargeTime / maxChargeTime; // 0 to 1
-    //    //float size = 1f + chargeRatio * (chargeMultiplier - 1f); // Scales from 1x to chargeMultiplier
-
-    //    //projectileScript.spriteRenderer.transform.localScale = new Vector3(size, 1, 1);
-
-    //}
-
-
-    //protected GameObject SpawnProjectile<T>(T projectileData, GameObject projectilePrefab)
-    //{
-    //    //thêm chỗ gắn data cho projectile
-    //    //DummyProjectileController projectileController = GetComponent<DummyProjectileController>();
-    //    //projectileController.projectile = projectileData;
-    //    GameObject result = Instantiate(projectilePrefab, transform.parent);
-    //    return result;
-    //}
 
 }

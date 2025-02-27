@@ -2,7 +2,10 @@
 using UnityEngine;
 public class PrincessSkill1ProjecttileController : BaseProjectileController
 {
-    public Vector3 dir = Vector3.right;
+    private Vector3 dir = Vector3.right;
+
+    public Vector3 Dir { get => dir; set => dir = value; }
+
     private void Start()
     {
         StartCoroutine(WaitToDestroy());
@@ -10,7 +13,7 @@ public class PrincessSkill1ProjecttileController : BaseProjectileController
     void Update()
     {
         //dir = transform.rotation * new Vector3(1, 1, 0);
-        transform.Translate(dir * 10 * Time.deltaTime);
+        transform.Translate(Dir * 10 * Time.deltaTime);
         //transform.Translate(transform.rotation.normalized * Vector3.one);
 
     }

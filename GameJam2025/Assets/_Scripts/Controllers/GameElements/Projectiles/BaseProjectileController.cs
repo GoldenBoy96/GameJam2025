@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class BaseProjectileController : MonoBehaviour, ICanBeDamage
 {
-    [SerializeField] BaseCharacterController owner;
+    [SerializeField] private BaseCharacterController owner;
 
+    public BaseCharacterController Owner { get => owner; }
 
     public void SetOwner(BaseCharacterController owner)
     {
@@ -25,13 +26,18 @@ public class BaseProjectileController : MonoBehaviour, ICanBeDamage
     {
         if (collision.gameObject.TryGetComponent<ICanBeDamage>(out var target))
         {
-            BaseCharacterController targetController = collision.gameObject.GetComponent<BaseCharacterController>();
-            if (owner != targetController)
+            if (collision.gameObject.TryGetComponent<BaseCharacterController>(out var targetController))
             {
-                target.GetDamage();
+                if (Owner.ToString() != targetController.ToString())
+                {
+                    Debug.Log(Owner + " | " + target + " | " + targetController);
+                    target.GetDamage();
+                    ReturnProjectileToPool();
+                }
 
-                ReturnProjectileToPool();
             }
+            //BaseCharacterController targetController = collision.gameObject.GetComponent<BaseCharacterController>();
+            
         }
     }
 

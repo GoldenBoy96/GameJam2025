@@ -4,6 +4,7 @@ using UnityEngine;
 public class DuolingoSkill2ProjectileController : BaseProjectileController
 {
     public Vector3 dir = Vector3.left;
+    [SerializeField] protected float existTime;
     private void Start()
     {
         StartCoroutine(WaitToDestroy());
@@ -16,7 +17,7 @@ public class DuolingoSkill2ProjectileController : BaseProjectileController
     IEnumerator WaitToDestroy()
     {
         //TODO: Chinh thoi gian mem trong model
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(existTime);
         ReturnProjectileToPool();
     }
 
@@ -24,8 +25,13 @@ public class DuolingoSkill2ProjectileController : BaseProjectileController
     {
         if (collision.gameObject.TryGetComponent<BaseProjectileController>(out var target))
         {
-            target.GetDamage();
-            GetDamage();
+            if (target.Owner.ToString().Trim() != Owner.ToString().Trim())
+            {
+                Debug.Log(target.Owner.ToString().Trim() == Owner.ToString().Trim() + " | \n" + target.ToString() + " | \n" + Owner.ToString());
+                target.GetDamage();
+                GetDamage();
+
+            }
         }
     }
 }

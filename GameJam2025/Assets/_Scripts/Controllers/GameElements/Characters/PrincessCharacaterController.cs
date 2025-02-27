@@ -36,7 +36,7 @@ public class PrincessCharacaterController : BaseCharacterController
             //Debug.Log($"Tia {i} ban ra");
             GameObject bullet = SpawnProjectile(lightAttack, princessSkill1Prefab);
             PrincessSkill1ProjecttileController projectileScript = bullet.GetComponent<PrincessSkill1ProjecttileController>();
-            projectileScript.dir = Quaternion.Euler(0, 0, i * rotateDegree * random + startedDegree) * projectileScript.dir;
+            projectileScript.Dir = Quaternion.Euler(0, 0, i * rotateDegree * random + startedDegree) * projectileScript.Dir;
             yield return new WaitForSeconds(fireRate);
         }
     }
